@@ -1,0 +1,9 @@
+.idea
+.vscode
+db.sqlite3
+*.pyc
+__pycache__
+secrets.json
+logs
+media/**
+~$*
