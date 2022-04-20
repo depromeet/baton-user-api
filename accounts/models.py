@@ -38,6 +38,7 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
 
     Username and password are required. Other fields are optional.
     """
+    id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     social_id = models.CharField(_('uid'), max_length=255)
     provider = models.CharField(_('provider'), max_length=30)
 
