@@ -57,9 +57,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my app
     'accounts.apps.AccountsConfig',
-    'mypage.apps.MypageConfig'
+    'mypage.apps.MypageConfig',
     # # rest_framework
-    # 'rest_framework',
+    'rest_framework',
     # 'rest_framework.authtoken',
     # # dj_rest_auth
     # 'dj_rest_auth',

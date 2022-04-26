@@ -7,14 +7,17 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+TEST = False
+
 
 class User(models.Model):
-    user = models.OneToOneField('accounts.SocialUser', primary_key=True, on_delete=models.CASCADE, db_column='id')
+    user = models.OneToOneField('accounts.SocialUser', primary_key=True, on_delete=models.CASCADE, db_column='id',
+                                related_name='app_user')
     nickname = models.CharField(max_length=255)
     gender = models.BooleanField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = TEST
         db_table = 'User'
 
 
@@ -23,7 +26,7 @@ class Bookmark(models.Model):
     ticket = models.ForeignKey('Ticket', models.DO_NOTHING, related_name='bookmarks')
 
     class Meta:
-        managed = False
+        managed = TEST
         db_table = 'Bookmark'
 
 
@@ -33,7 +36,7 @@ class Tag(models.Model):
     users = models.ManyToManyField('User', through='UserTag', related_name='tags')
 
     class Meta:
-        managed = False
+        managed = TEST
         db_table = 'Tag'
 
 
@@ -44,10 +47,10 @@ class Ticket(models.Model):
     tags = models.ManyToManyField('Tag', through='TicketTag', related_name='tickets')
     location = models.CharField(max_length=255)
     price = models.IntegerField()
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        managed = False
+        managed = TEST
         db_table = 'Ticket'
 
 
@@ -56,7 +59,7 @@ class TicketTag(models.Model):
     tag = models.ForeignKey(Tag, models.DO_NOTHING)
 
     class Meta:
-        managed = False
+        managed = TEST
         db_table = 'TicketTag'
 
 
@@ -65,5 +68,5 @@ class UserTag(models.Model):
     tag = models.ForeignKey(Tag, models.DO_NOTHING)
 
     class Meta:
-        managed = False
+        managed = TEST
         db_table = 'UserTag'
