@@ -30,43 +30,54 @@ class Bookmark(models.Model):
         db_table = 'Bookmark'
 
 
+class Buy(models.Model):
+    user = models.ForeignKey('User', models.DO_NOTHING, related_name='buys')
+    ticket = models.OneToOneField('Ticket', on_delete=models.DO_NOTHING)
+    date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = TEST
+        db_table = 'Buy'
+        ordering = ['-date']
+
+
+class Ticket(models.Model):
+    seller = models.ForeignKey('User', models.DO_NOTHING, related_name='sell_tickets')
+    location = models.CharField(max_length=255)
+    price = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    state = models.IntegerField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    tag_hash = models.BigIntegerField()
+    is_membership = models.IntegerField()
+    expiry_date = models.DateField(blank=True, null=True)
+    remaining_number = models.IntegerField(blank=True, null=True)
+
+    # buyer = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, related_name='buy_tickets')
+    bookmark_users = models.ManyToManyField('User', through='Bookmark', related_name='bookmark_tickets')
+    tags = models.ManyToManyField('Tag', through='TicketTag', related_name='tickets')
+
+    class Meta:
+        managed = TEST
+        db_table = 'Ticket'
+        ordering = ['-created_at']
+
+
 class Tag(models.Model):
     subject = models.CharField(max_length=255)
     content = models.TextField()
-    users = models.ManyToManyField('User', through='UserTag', related_name='tags')
 
     class Meta:
         managed = TEST
         db_table = 'Tag'
 
 
-class Ticket(models.Model):
-    seller = models.ForeignKey('User', models.DO_NOTHING, related_name='sell_tickets')
-    buyer = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, related_name='buy_tickets')
-    bookmark_users = models.ManyToManyField('User', through='Bookmark', related_name='bookmark_tickets')
-    tags = models.ManyToManyField('Tag', through='TicketTag', related_name='tickets')
-    location = models.CharField(max_length=255)
-    price = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        managed = TEST
-        db_table = 'Ticket'
-
-
 class TicketTag(models.Model):
-    ticket = models.ForeignKey(Ticket, models.DO_NOTHING)
-    tag = models.ForeignKey(Tag, models.DO_NOTHING)
+    ticket = models.ForeignKey('Ticket', models.DO_NOTHING)
+    tag = models.ForeignKey('Tag', models.DO_NOTHING)
 
     class Meta:
         managed = TEST
         db_table = 'TicketTag'
-
-
-class UserTag(models.Model):
-    user = models.ForeignKey('User', models.DO_NOTHING)
-    tag = models.ForeignKey(Tag, models.DO_NOTHING)
-
-    class Meta:
-        managed = TEST
-        db_table = 'UserTag'
