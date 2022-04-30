@@ -48,14 +48,27 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
-
+    # django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # my app
+    'accounts.apps.AccountsConfig',
+    'mypage.apps.MypageConfig',
+    # # rest_framework
+    'rest_framework',
+    # 'rest_framework.authtoken',
+    # # dj_rest_auth
+    # 'dj_rest_auth',
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # # social login
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.kakao',
 ]
 
 MIDDLEWARE = [
@@ -97,6 +110,7 @@ DATABASES = get_secret("DATABASES")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
+AUTH_USER_MODEL = 'accounts.SocialUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
