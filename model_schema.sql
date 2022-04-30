@@ -1,3 +1,14 @@
+/*
+테이블 변경사항 발생 시 이 테이블 정의 코드를 직접 수정합니다. commit 규칙은 아래와 같습니다.
+1. commit당 한 테이블만 수정합니다.
+2. commit message에는 SQL DDL 코드 앞부분을 적습니다.
+   (예시) Alter table Ticket ADD, Create table Ticket
+3. Alter table의 경우 ADD, DROP, MODIFY, CHANGE 연산을 허용하며,
+   한 commit에 복수의 연산도 가능합니다. 쉼표로 구분하여 commit msg에 적습니다.
+   (예시) Alter table Ticket ADD, DROP
+4. 변경 이유는 코드 commit 후, history에 들어가 코드 변경 영역에 comment로 남깁니다.
+*/
+
 CREATE TABLE `accounts_socialuser` (
     `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `password` varchar(128) NOT NULL,
