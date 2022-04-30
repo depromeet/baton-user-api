@@ -1,5 +1,5 @@
 from mypage.models import User
-from mypage.serializers import TicketListSerializer, BuySerializer
+from mypage.serializers import TicketListSerializer, BookmarkSerializer, BuySerializer
 
 from rest_framework import generics
 from rest_framework.response import Response
@@ -10,10 +10,10 @@ class BookmarkView(generics.ListAPIView):
     관심상품
     """
     queryset = User.objects.all()
-    serializer_class = TicketListSerializer
+    serializer_class = BookmarkSerializer
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_object().bookmark_tickets
+        queryset = self.get_object().bookmarks
 
         page = self.paginate_queryset(queryset)
         if page is not None:
