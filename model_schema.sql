@@ -25,7 +25,20 @@ CREATE TABLE `Ticket` (
     `tag_hash` bigint NOT NULL,
     `is_membership` boolean NOT NULL,
     `expiry_date` date,
-    `remaining_number` int
+    `remaining_number` int,
+    `type` int NOT NULL,
+    `can_nego` tinyint(1) NOT NULL,
+    `trade_type` int NOT NULL,
+    `has_shower` tinyint(1) NOT NULL,
+    `has_locker` tinyint(1) NOT NULL,
+    `has_clothes` tinyint(1) NOT NULL,
+    `has_gx` tinyint(1) NOT NULL,
+    `can_resell` tinyint(1) NOT NULL,
+    `can_refund` tinyint(1) NOT NULL,
+    `description` varchar(255) NOT NULL,
+    `thumbnail` varchar(255) NOT NULL,
+    `transfer_fee` int NOT NULL,
+    `point` point NOT NULL,
 );
 
 CREATE TABLE `Buy` (
