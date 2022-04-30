@@ -20,15 +20,13 @@ CREATE TABLE `Ticket` (
     `price` int NOT NULL,
     `created_at` timestamp NOT NULL,
     `state` int NOT NULL, -- 0: 판매중, 1: 예약중, 2: 판매완료
-    `latitude` double NOT NULL,
-    `longitude` double NOT NULL,
     `tag_hash` bigint NOT NULL,
     `is_membership` boolean NOT NULL,
     `expiry_date` date,
     `remaining_number` int,
-    `type` int NOT NULL,
+    `type` int NOT NULL, -- 0: 헬스, 1: PT, 2: 필라테스 / 요가, 3: 기타
     `can_nego` tinyint(1) NOT NULL,
-    `trade_type` int NOT NULL,
+    `trade_type` int NOT NULL, -- 0: 대면, 1: 비대면, 2: 둘 다
     `has_shower` tinyint(1) NOT NULL,
     `has_locker` tinyint(1) NOT NULL,
     `has_clothes` tinyint(1) NOT NULL,
@@ -37,8 +35,8 @@ CREATE TABLE `Ticket` (
     `can_refund` tinyint(1) NOT NULL,
     `description` varchar(255) NOT NULL,
     `thumbnail` varchar(255) NOT NULL,
-    `transfer_fee` int NOT NULL,
-    `point` point NOT NULL,
+    `transfer_fee` int NOT NULL, -- 0: 판매자, 1: 구매자, 2: 해당 없음
+    `point` point NOT NULL
 );
 
 CREATE TABLE `Buy` (
