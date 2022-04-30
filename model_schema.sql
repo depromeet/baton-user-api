@@ -64,6 +64,13 @@ CREATE TABLE `TicketTag` (
     `tag_id` int NOT NULL
 );
 
+CREATE TABLE `TicketImage` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `ticket_id` int NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `is_main` boolean NOT NULL
+);
+
 ALTER TABLE `User` ADD FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`);
 
 ALTER TABLE `Ticket` ADD FOREIGN KEY (`seller_id`) REFERENCES `User` (`id`);
@@ -79,3 +86,5 @@ ALTER TABLE `Bookmark` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`);
 ALTER TABLE `TicketTag` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`);
 
 ALTER TABLE `TicketTag` ADD FOREIGN KEY (`tag_id`) REFERENCES `Tag` (`id`);
+
+ALTER TABLE `TicketImage` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`);
