@@ -22,7 +22,7 @@ CREATE TABLE `Ticket` (
     `state` int NOT NULL, -- 0: 판매중, 1: 예약중, 2: 판매완료
     `tag_hash` bigint NOT NULL,
     `is_membership` boolean NOT NULL,
-    `expiry_date` date,
+    `is_holding` tinyint(1) NOT NULL,
     `remaining_number` int,
     `type` int NOT NULL, -- 0: 헬스, 1: PT, 2: 필라테스 / 요가, 3: 기타
     `can_nego` tinyint(1) NOT NULL,
