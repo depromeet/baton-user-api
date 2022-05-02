@@ -66,7 +66,8 @@ CREATE TABLE `Tag` (
 CREATE TABLE `Bookmark` (
     `id` int PRIMARY KEY AUTO_INCREMENT,
     `user_id` int NOT NULL,
-    `ticket_id` int NOT NULL
+    `ticket_id` int NOT NULL,
+    UNIQUE KEY (`user_id`, `ticket_id`)
 );
 
 CREATE TABLE `TicketTag` (
