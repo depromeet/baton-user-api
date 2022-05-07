@@ -10,9 +10,8 @@ urlpatterns = [
     path('users/<int:pk>/buys', user_views.UserBuyView.as_view(), name='user-buy'),
     path('users/<int:pk>/sells', user_views.UserSellView.as_view(), name='user-sell'),
 
-    path('bookmarks', ticket_views.BookmarkCreateView.as_view(), name='bookmark-list'),
-    path('bookmarks/<int:pk>', ticket_views.BookmarkDestroyView.as_view(), name='bookmark-detail'),
-
-    path('buys', ticket_views.BuyCreateView.as_view(), name='buy-list'),
+    path('buys', ticket_views.BuyListView.as_view(), name='buy-list'),
     path('buys/<int:pk>', ticket_views.BuyDetailView.as_view(), name='buy-detail'),
+    path('bookmarks', ticket_views.BookmarkListView.as_view(), name='bookmark-list'),
+    path('bookmarks/<int:pk>', ticket_views.BookmarkDetailView.as_view(), name='bookmark-detail'),
 ]
