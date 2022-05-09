@@ -12,7 +12,7 @@ class TicketListSerializer(serializers.ModelSerializer):
         fields = ['id', 'state', 'location', 'price', 'created_at']  # TODO 필드 추가
 
 
-class BuySerializer(serializers.ModelSerializer):
+class UserBuySerializer(serializers.ModelSerializer):
     """
     구매내역 (구매 날짜 + 양도권)
     """
@@ -23,7 +23,7 @@ class BuySerializer(serializers.ModelSerializer):
         fields = ['id', 'date', 'ticket']
 
 
-class BookmarkSerializer(serializers.ModelSerializer):
+class UserBookmarkSerializer(serializers.ModelSerializer):
     """
     관심상품 (bookmark id, tickets)
     """

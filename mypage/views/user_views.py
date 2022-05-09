@@ -1,5 +1,5 @@
 from mypage.models import User
-from mypage.serializers import UserSerializer, TicketListSerializer, BuySerializer, BookmarkSerializer
+from mypage.serializers import user_serializers as serializers
 
 from rest_framework import generics
 from django.http import Http404
@@ -11,14 +11,14 @@ class UserDetailView(generics.RetrieveAPIView):
     마이페이지
     """
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = serializers.UserSerializer
 
 
-class SellView(generics.ListAPIView):
+class UserSellView(generics.ListAPIView):
     """
     판매내역
     """
-    serializer_class = TicketListSerializer
+    serializer_class = serializers.TicketListSerializer
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
@@ -29,11 +29,11 @@ class SellView(generics.ListAPIView):
         return user.sell_tickets.filter(state=state)
 
 
-class BuyView(generics.ListAPIView):
+class UserBuyView(generics.ListAPIView):
     """
     구매내역
     """
-    serializer_class = BuySerializer
+    serializer_class = serializers.UserBuySerializer
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
@@ -41,11 +41,11 @@ class BuyView(generics.ListAPIView):
         return user.buys
 
 
-class BookmarkView(generics.ListAPIView):
+class UserBookmarkView(generics.ListAPIView):
     """
     관심상품
     """
-    serializer_class = BookmarkSerializer
+    serializer_class = serializers.UserBookmarkSerializer
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
