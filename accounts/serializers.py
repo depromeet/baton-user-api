@@ -1,6 +1,22 @@
+from mypage.models import User
+
 import requests
 
 from rest_framework import serializers
+
+
+class UserSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source='social_user.id')
+
+    class Meta:
+        model = User
+        fields = ['id', 'nickname', 'gender']
+
+
+class JWTSerializer(serializers.Serializer):
+    access_token = serializers.CharField()
+    refresh_token = serializers.CharField()
+    user = UserSerializer()
 
 
 class SocialLoginSerializer(serializers.Serializer):
