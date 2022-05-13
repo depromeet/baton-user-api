@@ -7,28 +7,29 @@ from django.utils.translation import gettext_lazy as _
 
 
 class SocialUserManager(BaseUserManager):
-    def _create_user(self, social_id, provider, password, **extra_fields):
+    def _create_user(self, uid, provider, **extra_fields):
         """
         Create and save a user with the given username, email, and password.
         """
-        if not (social_id or provider):
+        # email = self.normalize_email(email)
+        if not (uid or provider):
             raise ValueError('The given id and provider must be set')
-        user = self.model(social_id, provider, **extra_fields)
-        user.set_password(password)
+        user = self.model(uid=uid, provider=provider, **extra_fields)
+        user.set_unusable_password()
         user.save(using=self._db)
         return user
 
-    def create_user(self, social_id, provider, password, **extra_fields):
+    def create_user(self, uid, provider, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(social_id, provider, password, **extra_fields)
+        return self._create_user(uid, provider, **extra_fields)
 
-    def create_superuser(self, social_id, provider, password, **extra_fields):
+    def create_superuser(self, uid, provider, **extra_fields):
         extra_fields.setdefault('is_superuser', True)
 
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user(social_id, provider, password, **extra_fields)
+        return self._create_user(uid, provider, **extra_fields)
 
 
 class SocialUser(AbstractBaseUser, PermissionsMixin):
@@ -39,13 +40,13 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
     Username and password are required. Other fields are optional.
     """
     id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
-    social_id = models.CharField(_('uid'), max_length=255)
+    uid = models.CharField(_('uid'), max_length=255)
     provider = models.CharField(_('provider'), max_length=30)
 
     objects = SocialUserManager()
 
     USERNAME_FIELD = 'id'
-    REQUIRED_FIELDS = ['provider', 'social_id']
+    REQUIRED_FIELDS = ['provider', 'uid']
 
     class Meta:
         verbose_name = _('social user')
