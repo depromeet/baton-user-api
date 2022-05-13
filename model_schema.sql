@@ -100,3 +100,5 @@ ALTER TABLE `TicketTag` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`)
 ALTER TABLE `TicketTag` ADD FOREIGN KEY (`tag_id`) REFERENCES `Tag` (`id`);
 
 ALTER TABLE `TicketImage` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`);
+
+ALTER TABLE `Ticket` ADD `address` varchar(255) not null;
