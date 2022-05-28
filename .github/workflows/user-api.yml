@@ -54,4 +54,3 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker run -dit -p 8000:8000 --name $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker ps -a
-          docker logs -f $ECR_REPOSITORY
