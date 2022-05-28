@@ -16,9 +16,31 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='Baton User API',
+        default_version='0.0.1',
+        description='Baton의 마이페이지, 관심상품, 구매 관련 API를 담고 있습니다.',
+        # terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="jseoplim@gmail.com"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('user/', include('accounts.urls')),
-    path('user/', include('mypage.urls')),
+    path('', include('accounts.urls')),
+    path('', include('mypage.urls')),
+    # path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger.yaml', schema_view.without_ui(cache_timeout=0), name='schema-yaml'),
+    path('swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+]
+
+urlpatterns = [
+    path('user/', include(urlpatterns))
 ]
