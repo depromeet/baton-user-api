@@ -3,7 +3,7 @@ name: Deploy baton user api
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   build:
