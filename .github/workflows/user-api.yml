@@ -7,8 +7,8 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
-    environment: deploy
     strategy:
       matrix:
         python-version: [3.9]
@@ -33,21 +33,26 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Setting .env
+        run: |
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          echo "DATABASES_NAME=${{ secrets.DATABASES_NAME }}" >> .env
+          echo "DATABASES_USER=${{ secrets.DATABASES_USER }}" >> .env
+          echo "DATABASES_PASSWORD=${{ secrets.DATABASES_PASSWORD }}" >> .env
+          echo "DATABASES_HOST=${{ secrets.DATABASES_HOST }}" >> .env
+          echo "DATABASES_PORT=${{ secrets.DATABASES_PORT }}" >> .env
+          echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> .env
+          cat .env
+
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: baton-user-api
           IMAGE_TAG: ${{ github.sha }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DATABASES_NAME: ${{ secrets.DATABASES_NAME }}
-          DATABASES_USER: ${{ secrets.DATABASES_USER }}
-          DATABASES_PASSWORD: ${{ secrets.DATABASES_PASSWORD }}
-          DATABASES_HOST: ${{ secrets.DATABASES_HOST }}
-          DATABASES_PORT: ${{ secrets.DATABASES_PORT }}
-          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker run -dit -p 8000:8000 --name $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker run -dit -p 8000:8000 --name $ECR_REPOSITORY $ECR_REPOSITORY
           docker ps -a
           docker logs -f $ECR_REPOSITORY
+          
