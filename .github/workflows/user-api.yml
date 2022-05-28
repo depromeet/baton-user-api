@@ -3,7 +3,7 @@ name: Deploy baton user api
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
@@ -52,7 +52,6 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker run -dit -p 8000:8000 --name $ECR_REPOSITORY $ECR_REPOSITORY
-          docker ps -a
-          docker logs -f $ECR_REPOSITORY
-          
+#          docker run -dit -p 8000:8000 --name $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#          docker ps -a
+#          docker logs -f $ECR_REPOSITORY

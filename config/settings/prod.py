@@ -1,10 +1,13 @@
 from .base import *
 
 import os
+from dotenv import load_dotenv
 
 
 DEBUG = False
 ALLOWED_HOSTS = ['*']
+
+load_dotenv()
 
 
 def get_secret(setting):
