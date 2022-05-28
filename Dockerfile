@@ -7,5 +7,6 @@ WORKDIR /app
 COPY . .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN pip install gunicorn
 
-CMD ["bash", "-c", "python manage.py migrate && python manage.py runserver --settings=config.settings.prod 0.0.0.0:8000"]
+CMD ["gunicorn", "--bind", "0:8000", "config.wsgi:application"]
