@@ -2,10 +2,10 @@ from accounts.serializers import JWTSerializer
 from accounts.models import SocialUser
 from mypage.models import User as AppUser
 
-from django.http import JsonResponse
-
 from rest_framework import status
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from django.http import JsonResponse
 
 
 class SocialLoginMixin:

@@ -6,8 +6,10 @@ class BuyCreateSerializer(serializers.ModelSerializer):
     """
     Create Buy instance
     """
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    ticket = serializers.PrimaryKeyRelatedField(queryset=Ticket.objects.all())
+    id = serializers.IntegerField(help_text='Buy ID')
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), help_text='User ID(integer)')
+    ticket = serializers.PrimaryKeyRelatedField(queryset=Ticket.objects.all(), help_text='Ticket ID')
+    date = serializers.DateTimeField(help_text='구매일시')
 
     class Meta:
         model = Buy
@@ -18,9 +20,10 @@ class BuyDetailSerializer(serializers.ModelSerializer):
     """
     Buy instance
     """
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
-    ticket = serializers.PrimaryKeyRelatedField(read_only=True)
-    date = serializers.DateTimeField(required=True)
+    id = serializers.IntegerField(help_text='Buy ID')
+    user = serializers.PrimaryKeyRelatedField(read_only=True, help_text='User ID(integer)')
+    ticket = serializers.PrimaryKeyRelatedField(read_only=True, help_text='Ticket ID')
+    date = serializers.DateTimeField(required=True, help_text='구매일시')
 
     class Meta:
         model = Buy
@@ -31,8 +34,9 @@ class BookmarkSerializer(serializers.ModelSerializer):
     """
     Bookmark instance
     """
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    ticket = serializers.PrimaryKeyRelatedField(queryset=Ticket.objects.all())
+    id = serializers.IntegerField(help_text='Bookmark ID')
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), help_text='User ID(integer)')
+    ticket = serializers.PrimaryKeyRelatedField(queryset=Ticket.objects.all(), help_text='Ticket ID')
 
     class Meta:
         model = Bookmark

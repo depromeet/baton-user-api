@@ -12,7 +12,7 @@ TEST = False
 
 class User(models.Model):
     social_user = models.OneToOneField('accounts.SocialUser', primary_key=True, on_delete=models.CASCADE,
-                                       db_column='id', related_name='app_user')
+                                       db_column='id', related_name='app_user', help_text='User ID(integer)')
     nickname = models.CharField(max_length=255)
     gender = models.BooleanField(blank=True, null=True)
 
