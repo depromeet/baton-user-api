@@ -33,7 +33,7 @@ class Bookmark(models.Model):
 class Buy(models.Model):
     user = models.ForeignKey('User', models.DO_NOTHING, related_name='buys')
     ticket = models.OneToOneField('Ticket', on_delete=models.DO_NOTHING)
-    date = models.DateTimeField(blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True, help_text='구매일시')
 
     class Meta:
         managed = TEST
@@ -47,7 +47,7 @@ class Ticket(models.Model):
     price = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    state = models.IntegerField()
+    state = models.IntegerField(help_text='양도권 상태 (0: 판매중, 1: 예약중, 2: 판매완료)')
     latitude = models.FloatField()
     longitude = models.FloatField()
     tag_hash = models.BigIntegerField()
