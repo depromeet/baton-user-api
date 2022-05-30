@@ -5,10 +5,6 @@ from rest_framework import generics
 
 
 class BuyListView(generics.ListCreateAPIView):
-    """
-    Reserve a ticket.
-    Buy instance 생성 (state 0 -> 1)
-    """
     queryset = Buy.objects.all()
     serializer_class = serializers.BuyCreateSerializer
 
@@ -17,11 +13,23 @@ class BuyListView(generics.ListCreateAPIView):
         buy.ticket.state = 1
         buy.ticket.save()
 
+    def get(self, request, *args, **kwargs):
+        """
+        구매/예약 목록
+        """
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """
+        Reserve a ticket.
+        Buy instance 생성 (ticket state 0 -> 1)
+        """
+        return self.create(request, *args, **kwargs)
+
 
 class BuyDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
-    Cancel Reservation.
-    Buy instance 삭제 (state 1,2 -> 0)
+    구매/예약 상세 조회, 수정, 삭제
     """
     queryset = Buy.objects.all()
     serializer_class = serializers.BuyDetailSerializer
@@ -30,6 +38,13 @@ class BuyDetailView(generics.RetrieveUpdateDestroyAPIView):
         instance.ticket.state = 0
         instance.ticket.save()
         instance.delete()
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Cancel Reservation.
+        Buy instance 삭제 (ticket state 1,2 -> 0)
+        """
+        return super().delete(request, *args, **kwargs)
 
 
 class BookmarkListView(generics.ListCreateAPIView):
