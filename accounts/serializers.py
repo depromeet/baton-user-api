@@ -5,22 +5,22 @@ import requests
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(source='social_user.id')
+class JWTUserSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source='social_user.id', help_text='User ID')
 
     class Meta:
         model = User
-        fields = ['id', 'nickname', 'gender']
+        fields = ['id']
 
 
 class JWTSerializer(serializers.Serializer):
-    access_token = serializers.CharField()
-    refresh_token = serializers.CharField()
-    user = UserSerializer()
+    access_token = serializers.CharField(help_text='Baton App 인증을 위한 Access Token')
+    refresh_token = serializers.CharField(help_text='Baton App Access Token 갱신을 위한 Refresh Token')
+    user = JWTUserSerializer()
 
 
 class SocialLoginSerializer(serializers.Serializer):
-    access_token = serializers.CharField(required=True)
+    access_token = serializers.CharField(required=True, help_text='Kakao 서버 인증을 위한 Access Token')
     profile_url = ''
 
     class Meta:

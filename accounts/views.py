@@ -1,7 +1,9 @@
 from accounts.serializers import KaKaoLoginSerializer
 from accounts.mixins import SocialLoginMixin, LogoutMixin
+from accounts.serializers import JWTSerializer
 
 from rest_framework.generics import GenericAPIView
+from drf_yasg.utils import swagger_auto_schema
 
 import requests
 from urllib.parse import urlencode
@@ -45,6 +47,9 @@ def kakao_callback(request):  # TODO 프론트에서 담당
 
 
 class SocialLoginView(GenericAPIView, SocialLoginMixin):
+    @swagger_auto_schema(
+        responses={200: JWTSerializer}
+    )
     def post(self, request):
         return self.login(request)
 
