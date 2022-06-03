@@ -45,7 +45,7 @@ class UserSellView(generics.ListAPIView):
     @swagger_auto_schema(
         manual_parameters=[
             openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
-            openapi.Parameter('state', openapi.IN_QUERY, default=0, type=openapi.TYPE_INTEGER,
+            openapi.Parameter('state', openapi.IN_QUERY, default=0, type=openapi.TYPE_STRING,
                               description='조회할 양도권 상태 (0: 판매중, 2: 판매완료)'),
         ],
     )
@@ -101,7 +101,7 @@ class UserBookmarkView(generics.ListAPIView):
     @swagger_auto_schema(
         manual_parameters=[
             openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
-            openapi.Parameter('state', openapi.IN_QUERY, default='', type=openapi.TYPE_INTEGER,
+            openapi.Parameter('state', openapi.IN_QUERY, default='', type=openapi.TYPE_STRING,
                               description="조회할 양도권 상태 ((blank): 전체, 0: 판매중, 1: 예약중, 2: 판매완료)"),
         ],
     )
