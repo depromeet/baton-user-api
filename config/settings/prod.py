@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 DEBUG = False
 ALLOWED_HOSTS = ['*']
 
+BASE_URL = 'https://baton.yonghochoi.com/user/'
+
 load_dotenv()
 
 
@@ -19,6 +21,7 @@ def get_secret(setting):
 
 
 SECRET_KEY = get_secret("SECRET_KEY")
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
@@ -29,4 +32,5 @@ DATABASES = {
         "PORT": get_secret("DATABASES_PORT"),
     }
 }
+
 KAKAO_REST_API_KEY = get_secret('KAKAO_REST_API_KEY')
