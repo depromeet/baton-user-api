@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 DEBUG = False
 ALLOWED_HOSTS = ['*']
 
-BASE_URL = 'https://baton.yonghochoi.com/user/'
+BASE_URL = 'https://baton.yonghochoi.com/'
 
 load_dotenv()
 
