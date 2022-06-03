@@ -18,7 +18,7 @@ CREATE TABLE `accounts_socialuser` (
     `provider` varchar(30) NOT NULL
 );
 
-CREATE TABLE `ccount` (
+CREATE TABLE `Account` (
   `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `holder` varchar(255) NOT NULL,
   `bank` varchar(255) NOT NULL,
