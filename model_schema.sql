@@ -18,6 +18,13 @@ CREATE TABLE `accounts_socialuser` (
     `provider` varchar(30) NOT NULL
 );
 
+CREATE TABLE `account` (
+  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `holder` varchar(255) NOT NULL,
+  `bank` varchar(255) NOT NULL,
+  `number` varchar(255) NOT NULL
+);
+
 CREATE TABLE `User` (
     `id` int PRIMARY KEY NOT NULL,
     `name` varchar(255) NOT NULL,
@@ -26,15 +33,8 @@ CREATE TABLE `User` (
     `created_on` date NOT NULL,
     `account_id` int DEFAULT NULL,
     UNIQUE KEY `account_id` (`account_id`),
-    FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
+    FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`),
     FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`)
-);
-
-CREATE TABLE `account` (
-  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `holder` varchar(255) NOT NULL,
-  `bank` varchar(255) NOT NULL,
-  `number` varchar(255) NOT NULL
 );
 
 CREATE TABLE `Ticket` (
