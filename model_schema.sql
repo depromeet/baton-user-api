@@ -30,6 +30,13 @@ CREATE TABLE `User` (
     FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`)
 );
 
+CREATE TABLE `account` (
+  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `holder` varchar(255) NOT NULL,
+  `bank` varchar(255) NOT NULL,
+  `number` varchar(255) NOT NULL
+);
+
 CREATE TABLE `Ticket` (
     `id` int PRIMARY KEY AUTO_INCREMENT,
     `seller_id` int NOT NULL,
