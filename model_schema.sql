@@ -20,8 +20,14 @@ CREATE TABLE `accounts_socialuser` (
 
 CREATE TABLE `User` (
     `id` int PRIMARY KEY NOT NULL,
+    `name` varchar(255) NOT NULL,
     `nickname` varchar(255) NOT NULL,
-    `gender` tinyint(1) DEFAULT NULL
+    `phone_number` varchar(255)NOT NULL,
+    `created_on` date NOT NULL,
+    `account_id` int DEFAULT NULL,
+    UNIQUE KEY `account_id` (`account_id`),
+    FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
+    FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`)
 );
 
 CREATE TABLE `Ticket` (
@@ -82,8 +88,6 @@ CREATE TABLE `TicketImage` (
   `url` varchar(255) NOT NULL,
   `is_main` boolean NOT NULL
 );
-
-ALTER TABLE `User` ADD FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`);
 
 ALTER TABLE `Ticket` ADD FOREIGN KEY (`seller_id`) REFERENCES `User` (`id`);
 
