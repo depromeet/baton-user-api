@@ -10,12 +10,13 @@
 */
 
 CREATE TABLE `accounts_socialuser` (
-    `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `password` varchar(128) NOT NULL,
-    `last_login` datetime(6) DEFAULT NULL,
-    `is_superuser` tinyint(1) NOT NULL,
-    `social_id` varchar(255) NOT NULL,
-    `provider` varchar(30) NOT NULL
+  `id` int NOT NULL AUTO_INCREMENT,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `uid` varchar(255) NOT NULL,
+  `provider` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `Account` (
