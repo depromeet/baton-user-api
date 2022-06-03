@@ -13,15 +13,13 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
 
-BASE_URL = 'http://127.0.0.1:8000/'
-
 
 def kakao_login(request):  # TODO 프론트에서 담당
     authorize_url = "https://kauth.kakao.com/oauth/authorize"
 
     query_kwargs = {
         'client_id': getattr(settings, 'KAKAO_REST_API_KEY'),
-        'redirect_uri': BASE_URL + reverse('accounts:kakao-callback'),
+        'redirect_uri': getattr(settings, 'BASE_URL') + reverse('accounts:kakao-callback'),
         'response_type': 'code',
     }
     return redirect(f'{authorize_url}?{urlencode(query_kwargs)}')
@@ -33,7 +31,7 @@ def kakao_callback(request):  # TODO 프론트에서 담당
     query_kwargs = {
         'grant_type': 'authorization_code',
         'client_id': getattr(settings, 'KAKAO_REST_API_KEY'),
-        'redirect_uri': BASE_URL + reverse('accounts:kakao-callback'),
+        'redirect_uri': getattr(settings, 'BASE_URL') + reverse('accounts:kakao-callback'),
         'code': request.GET.get("code"),
     }
 
@@ -50,7 +48,7 @@ class SocialLoginView(GenericAPIView, SocialLoginMixin):
     @swagger_auto_schema(
         responses={200: JWTSerializer}
     )
-    def post(self, request):
+    def post(self, request):  # TODO RAW data로 입력하면 GET으로 인식함
         return self.login(request)
 
 

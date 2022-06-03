@@ -6,6 +6,7 @@ import json
 
 DEBUG = True
 ALLOWED_HOSTS = []
+BASE_URL = 'http://127.0.0.1:8000/'
 
 # Environment variable setting
 secret_file = os.path.join(BASE_DIR, 'secrets.json')  # secrets.json 파일 위치를 명시
