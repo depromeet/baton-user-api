@@ -145,3 +145,10 @@ INSERT INTO `Ticket` VALUES (3,1,'장ㅈ',10000,'2022-06-01 17:53:15',0,3,1,1,NU
 INSERT INTO `TicketImage` VALUES (1,2,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/26c56d80-70fc-4068-8f7e-5721252b5296.jpeg',0,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg'),(2,3,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg',0,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg');
 
 INSERT INTO `TicketTag` VALUES (1,1,2),(2,1,1),(3,2,2),(4,2,1),(5,3,1),(6,3,2);
+
+INSERT INTO `Bookmark` (`user_id`, `ticket_id`) VALUES (3, 1);
+INSERT INTO `Bookmark` (`user_id`, `ticket_id`) VALUES (3, 2);
+INSERT INTO `Bookmark` (`user_id`, `ticket_id`) VALUES (1, 4);
+
+INSERT INTO `Buy` (`user_id`, `ticket_id`) VALUES (3, 1);
+INSERT INTO `Buy` (`user_id`, `ticket_id`, `date`) VALUES (2, 2, '2022-06-28 15:00:00');
