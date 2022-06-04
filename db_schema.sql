@@ -119,6 +119,4 @@ ALTER TABLE `TicketImage` ADD `thumbnail_url` varchar(255) not null;
 
 ALTER TABLE `Ticket` ADD `main_image` varchar(255);
 
-INSERT INTO `Tag` VALUES (1, "친절한 선생님", "친절한 선생님"), (2, "체계적인 수업", "체계적인 수업"), (3, "맞춤케어", "맞춤케어"), (4, "넓은 시설", "넓은 시설"), (5, "다양한 기구", "다양한 기구"), (6, "최신 기구", "최신 기구"), (7, "사람이 많은", "사람이 많은"), (8, "사람이 적은", "사람이 적은"), (9, "쾌적한 환경", "쾌적한 환경"), (10, "조용한 분위기", "조용한 분위기"), (11, "역세권", "역세권");
-
 ALTER TABLE `Ticket` add column expiry_date date;
