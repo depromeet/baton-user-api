@@ -29,7 +29,7 @@ class BuyDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'ticket', 'date']
         extra_kwargs = {
             'id': {'help_text': 'Buy ID'},
-            'data': {'required': True},
+            'date': {'required': True},
         }
 
 
