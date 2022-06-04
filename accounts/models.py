@@ -49,7 +49,7 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['provider', 'uid']
 
     class Meta:
-        managed = False
+        managed = True
         verbose_name = _('social user')
         verbose_name_plural = _('social users')
 

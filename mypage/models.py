@@ -8,7 +8,7 @@
 from django.db import models
 from django.conf import settings
 
-TEST = True
+TEST = False
 
 
 class User(models.Model):
@@ -76,7 +76,7 @@ class Ticket(models.Model):
     can_resell = models.BooleanField()
     can_refund = models.BooleanField()
     description = models.CharField(max_length=255)
-    thumbnail = models.CharField(max_length=255)
+    thumbnail = models.CharField(max_length=255, blank=True, null=True)
     transfer_fee = models.IntegerField()
     # point = models.TextField()  # This field type is a guess.
     address = models.CharField(max_length=255)
