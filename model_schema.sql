@@ -141,4 +141,7 @@ INSERT INTO `TicketImage` VALUES (1,2,'https://depromeet11th.s3.ap-northeast-2.a
 
 INSERT INTO `TicketTag` VALUES (1,1,2),(2,1,1),(3,2,2),(4,2,1),(5,3,1),(6,3,2);
 
-INSERT INTO User(id, name, nickname, phone_number, created_on) values (1, 'test_name1', 'test_nickname1', '010-1111-1111', '2022-06-03');
+INSERT INTO `Account` (`id`, `holder`, `bank`, `number`) VALUES (1, '홍길동', 'KB국민은행', '11111111111111');
+
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`) VALUES (1, 'test_name1', 'test_nickname1', '010-1111-1111', '2022-06-03');
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`, `account_id`) VALUES (2, 'test_name2', 'test_nickname2', '010-2222-2222', '2022-06-04', 1);
