@@ -65,3 +65,6 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         """All superusers are staff"""
         return self.is_superuser
+
+    def __str__(self):
+        return str(self.get_username())

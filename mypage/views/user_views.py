@@ -9,12 +9,19 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 
+class UserCreateView(generics.CreateAPIView):
+    """
+    사용자 생성 (회원가입)
+    """
+    serializer_class = serializers.UserCreateSerializer
+
+
 class UserDetailView(generics.RetrieveAPIView):
     """
     마이페이지
     """
     queryset = User.objects.all()
-    serializer_class = serializers.UserSerializer
+    serializer_class = serializers.UserDetailSerializer
 
     @swagger_auto_schema(
         manual_parameters=[
@@ -23,7 +30,7 @@ class UserDetailView(generics.RetrieveAPIView):
     )
     def get(self, request, *args, **kwargs):
         """
-        마이페이지; 사용자ID가 {social_user}인 사용자의 상세 정보
+        마이페이지; 사용자ID가 {id}인 사용자의 상세 정보
         """
         return super().get(request, *args, **kwargs)
 
