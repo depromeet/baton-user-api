@@ -18,7 +18,7 @@ class UserDetailView(generics.RetrieveAPIView):
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter('social_user', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
+            openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
         ],
     )
     def get(self, request, *args, **kwargs):
