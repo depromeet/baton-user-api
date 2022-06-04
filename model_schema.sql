@@ -33,8 +33,13 @@ CREATE TABLE `User` (
     `phone_number` varchar(255)NOT NULL,
     `created_on` date NOT NULL,
     `account_id` int DEFAULT NULL,
+    `address` varchar(255) NOT NULL,
+    `detailed_address` varchar(255) NOT NULL,
+    `check_terms_of_service` tinyint(1) NOT NULL,
+    `check_privacy_policy` tinyint(1) NOT NULL,
+--     `point` point NOT NULL,
     UNIQUE KEY `account_id` (`account_id`),
-    # FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`),
+--     FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`),
     FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`)
 );
 
@@ -135,10 +140,14 @@ INSERT INTO `Tag` VALUES (1, "친절한 선생님", "친절한 선생님"), (2, 
 
 INSERT INTO `Account` (`id`, `holder`, `bank`, `number`) VALUES (1, '홍길동', 'KB국민은행', '11111111111111');
 
-INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`) VALUES (1, 'test_name1', 'test_nickname1', '010-1111-1111', '2022-06-03');
-INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`, `account_id`) VALUES (2, 'test_name2', 'test_nickname2', '010-2222-2222', '2022-06-04', 1);
-INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`) VALUES (3, 'test_name3', 'test_nickname3', '010-3333-3333', '2022-03-03');
-INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`) VALUES (4, 'test_name4', 'test_nickname4', '010-4444-4444', '2022-04-04');
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`,`address`,`detailed_address`,`check_terms_of_service`,`check_privacy_policy`)
+   VALUES (1, '하나', '별명하나', '010-1111-1111', '2022-06-03','서울시 종로구','어떤빌딩',1,1);
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`, `account_id`,`address`,`detailed_address`,`check_terms_of_service`,`check_privacy_policy`)
+    VALUES (2, '둘', '별명둘', '010-2222-2222', '2022-06-04', 1,'서울시 종로구','어떤빌딩',1,1);
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`,`address`,`detailed_address`,`check_terms_of_service`,`check_privacy_policy`)
+    VALUES (3, '셋', '별명셋', '010-3333-3333', '2022-03-03','서울시 종로구','어떤빌딩',1,1);
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`,`address`,`detailed_address`,`check_terms_of_service`,`check_privacy_policy`)
+     VALUES (4, '넷', '별명넷', '010-4444-4444', '2022-04-04','서울시 종로구','어떤빌딩',1,1);
 
 INSERT INTO `Ticket` VALUES (1,1,'장ㅈ',10000,'2022-06-01 04:41:14',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(127.072240105848 37.2511767810868)'),'주소',NULL,'2023-04-05');
 INSERT INTO `Ticket` VALUES (2,1,'장ㅈ',10000,'2022-06-01 15:38:16',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(127.072240105848 37.2511767810868)'),'주소','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg','2023-04-05');
