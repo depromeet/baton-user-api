@@ -133,6 +133,11 @@ DB 테스트 데이터 삽입 SQL 코드입니다. commit 규칙은 아래와 �
 
 INSERT INTO `Tag` VALUES (1, "친절한 선생님", "친절한 선생님"), (2, "체계적인 수업", "체계적인 수업"), (3, "맞춤케어", "맞춤케어"), (4, "넓은 시설", "넓은 시설"), (5, "다양한 기구", "다양한 기구"), (6, "최신 기구", "최신 기구"), (7, "사람이 많은", "사람이 많은"), (8, "사람이 적은", "사람이 적은"), (9, "쾌적한 환경", "쾌적한 환경"), (10, "조용한 분위기", "조용한 분위기"), (11, "역세권", "역세권");
 
+INSERT INTO `Account` (`id`, `holder`, `bank`, `number`) VALUES (1, '홍길동', 'KB국민은행', '11111111111111');
+
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`) VALUES (1, 'test_name1', 'test_nickname1', '010-1111-1111', '2022-06-03');
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`, `account_id`) VALUES (2, 'test_name2', 'test_nickname2', '010-2222-2222', '2022-06-04', 1);
+
 INSERT INTO `Ticket` VALUES (1,1,'장ㅈ',10000,'2022-06-01 04:41:14',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(127.072240105848 37.2511767810868)'),'주소',NULL,'2023-04-05');
 INSERT INTO `Ticket` VALUES (2,1,'장ㅈ',10000,'2022-06-01 15:38:16',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(127.072240105848 37.2511767810868)'),'주소','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg','2023-04-05');
 INSERT INTO `Ticket` VALUES (3,1,'장ㅈ',10000,'2022-06-01 17:53:15',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(127.072240105848 37.2511767810868)'),'주소','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg','2023-04-05');
@@ -140,8 +145,3 @@ INSERT INTO `Ticket` VALUES (3,1,'장ㅈ',10000,'2022-06-01 17:53:15',0,3,1,1,NU
 INSERT INTO `TicketImage` VALUES (1,2,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/26c56d80-70fc-4068-8f7e-5721252b5296.jpeg',0,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg'),(2,3,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg',0,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg');
 
 INSERT INTO `TicketTag` VALUES (1,1,2),(2,1,1),(3,2,2),(4,2,1),(5,3,1),(6,3,2);
-
-INSERT INTO `Account` (`id`, `holder`, `bank`, `number`) VALUES (1, '홍길동', 'KB국민은행', '11111111111111');
-
-INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`) VALUES (1, 'test_name1', 'test_nickname1', '010-1111-1111', '2022-06-03');
-INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`, `account_id`) VALUES (2, 'test_name2', 'test_nickname2', '010-2222-2222', '2022-06-04', 1);
