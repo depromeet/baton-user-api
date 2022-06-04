@@ -20,10 +20,10 @@
 -- );
 
 CREATE TABLE `Account` (
-  `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `holder` varchar(255) NOT NULL,
-  `bank` varchar(255) NOT NULL,
-  `number` varchar(255) NOT NULL
+    `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `holder` varchar(255) NOT NULL,
+    `bank` varchar(255) NOT NULL,
+    `number` varchar(255) NOT NULL
 );
 
 CREATE TABLE `User` (
@@ -137,10 +137,13 @@ INSERT INTO `Account` (`id`, `holder`, `bank`, `number`) VALUES (1, '홍길동',
 
 INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`) VALUES (1, 'test_name1', 'test_nickname1', '010-1111-1111', '2022-06-03');
 INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`, `account_id`) VALUES (2, 'test_name2', 'test_nickname2', '010-2222-2222', '2022-06-04', 1);
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`) VALUES (3, 'test_name3', 'test_nickname3', '010-3333-3333', '2022-03-03');
+INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`) VALUES (4, 'test_name4', 'test_nickname4', '010-4444-4444', '2022-04-04');
 
 INSERT INTO `Ticket` VALUES (1,1,'장ㅈ',10000,'2022-06-01 04:41:14',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(127.072240105848 37.2511767810868)'),'주소',NULL,'2023-04-05');
 INSERT INTO `Ticket` VALUES (2,1,'장ㅈ',10000,'2022-06-01 15:38:16',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(127.072240105848 37.2511767810868)'),'주소','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg','2023-04-05');
 INSERT INTO `Ticket` VALUES (3,1,'장ㅈ',10000,'2022-06-01 17:53:15',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(127.072240105848 37.2511767810868)'),'주소','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg','2023-04-05');
+INSERT INTO `Ticket` VALUES (4,2,'장ㅈ',10000,'2022-06-01 18:34:23',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(127.072240105848 37.2511767810868)'),'주소',NULL,'2023-04-05');
 
 INSERT INTO `TicketImage` VALUES (1,2,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/26c56d80-70fc-4068-8f7e-5721252b5296.jpeg',0,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg'),(2,3,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg',0,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg');
 
