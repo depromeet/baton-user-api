@@ -59,7 +59,7 @@ CREATE TABLE `Ticket` (
     `can_resell` tinyint(1) NOT NULL,
     `can_refund` tinyint(1) NOT NULL,
     `description` varchar(255) NOT NULL,
-    `thumbnail` varchar(255) NOT NULL,
+    `thumbnail` varchar(255),
     `transfer_fee` int NOT NULL, -- 0: 판매자, 1: 구매자, 2: 해당 없음
     `point` point NOT NULL
 );
