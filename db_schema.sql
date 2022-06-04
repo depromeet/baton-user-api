@@ -9,15 +9,15 @@
 4. 변경 이유는 코드 commit 후, history에 들어가 코드 변경 영역에 comment로 남깁니다.
 */
 
-CREATE TABLE `accounts_socialuser` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `password` varchar(128) NOT NULL,
-  `last_login` datetime(6) DEFAULT NULL,
-  `is_superuser` tinyint(1) NOT NULL,
-  `uid` varchar(255) NOT NULL,
-  `provider` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-);
+-- CREATE TABLE `accounts_socialuser` (
+--   `id` int NOT NULL AUTO_INCREMENT,
+--   `password` varchar(128) NOT NULL,
+--   `last_login` datetime(6) DEFAULT NULL,
+--   `is_superuser` tinyint(1) NOT NULL,
+--   `uid` varchar(255) NOT NULL,
+--   `provider` varchar(255) NOT NULL,
+--   PRIMARY KEY (`id`)
+-- );
 
 CREATE TABLE `Account` (
   `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -34,8 +34,8 @@ CREATE TABLE `User` (
     `created_on` date NOT NULL,
     `account_id` int DEFAULT NULL,
     UNIQUE KEY `account_id` (`account_id`),
-    FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`),
-    FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`)
+    # FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`),
+    FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`)
 );
 
 CREATE TABLE `Ticket` (
