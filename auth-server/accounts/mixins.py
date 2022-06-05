@@ -1,6 +1,5 @@
 from accounts.serializers import JWTSerializer
 from accounts.models import SocialUser
-from mypage.models import User as AppUser
 
 from rest_framework import status
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
