@@ -9,21 +9,39 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 
-class UserDetailView(generics.RetrieveAPIView):
+class UserCreateView(generics.CreateAPIView):
     """
-    마이페이지
+    사용자 생성 (회원가입)
+    """
+    serializer_class = serializers.UserCreateSerializer
+
+
+class UserDetailView(generics.RetrieveDestroyAPIView):
+    """
+    마이페이지 (+회원탈퇴)
     """
     queryset = User.objects.all()
-    serializer_class = serializers.UserSerializer
+    serializer_class = serializers.UserDetailSerializer
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter('social_user', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
+            openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
         ],
     )
     def get(self, request, *args, **kwargs):
         """
-        마이페이지; 사용자ID가 {social_user}인 사용자의 상세 정보
+        마이페이지; 사용자ID가 {id}인 사용자의 상세 정보
+        """
+        return super().get(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
+        ],
+    )
+    def delete(self, request, *args, **kwargs):
+        """
+        회원탈퇴; 사용자ID가 {id}인 사용자 삭제
         """
         return super().get(request, *args, **kwargs)
 
@@ -45,7 +63,7 @@ class UserSellView(generics.ListAPIView):
     @swagger_auto_schema(
         manual_parameters=[
             openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
-            openapi.Parameter('state', openapi.IN_QUERY, default=0, type=openapi.TYPE_INTEGER,
+            openapi.Parameter('state', openapi.IN_QUERY, default=0, type=openapi.TYPE_STRING,
                               description='조회할 양도권 상태 (0: 판매중, 2: 판매완료)'),
         ],
     )
@@ -101,7 +119,7 @@ class UserBookmarkView(generics.ListAPIView):
     @swagger_auto_schema(
         manual_parameters=[
             openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
-            openapi.Parameter('state', openapi.IN_QUERY, default='', type=openapi.TYPE_INTEGER,
+            openapi.Parameter('state', openapi.IN_QUERY, default='', type=openapi.TYPE_STRING,
                               description="조회할 양도권 상태 ((blank): 전체, 0: 판매중, 1: 예약중, 2: 판매완료)"),
         ],
     )

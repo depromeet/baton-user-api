@@ -21,15 +21,15 @@ class BuyDetailSerializer(serializers.ModelSerializer):
     """
     Buy instance
     """
-    user = serializers.PrimaryKeyRelatedField(read_only=True, help_text='User ID(integer)')
-    ticket = serializers.PrimaryKeyRelatedField(read_only=True, help_text='Ticket ID')
+    user = serializers.PrimaryKeyRelatedField(read_only=True, help_text='User ID(integer); POST요청 시 미포함')
+    ticket = serializers.PrimaryKeyRelatedField(read_only=True, help_text='Ticket ID; POST요청 시 미포함')
 
     class Meta:
         model = Buy
         fields = ['id', 'user', 'ticket', 'date']
         extra_kwargs = {
             'id': {'help_text': 'Buy ID'},
-            'data': {'required': True},
+            'date': {'required': True},
         }
 
 

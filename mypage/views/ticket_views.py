@@ -4,27 +4,17 @@ from mypage.serializers import ticket_serializers as serializers
 from rest_framework import generics
 
 
-class BuyListView(generics.ListCreateAPIView):
-    queryset = Buy.objects.all()
+class BuyCreateView(generics.CreateAPIView):
+    """
+    Reserve a ticket.
+    Buy instance 생성 (state 0 -> 1)
+    """
     serializer_class = serializers.BuyCreateSerializer
 
     def perform_create(self, serializer):
         buy = serializer.save()
         buy.ticket.state = 1
         buy.ticket.save()
-
-    def get(self, request, *args, **kwargs):
-        """
-        구매/예약 목록
-        """
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """
-        Reserve a ticket.
-        Buy instance 생성 (ticket state 0 -> 1)
-        """
-        return self.create(request, *args, **kwargs)
 
 
 class BuyDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -47,11 +37,10 @@ class BuyDetailView(generics.RetrieveUpdateDestroyAPIView):
         return super().delete(request, *args, **kwargs)
 
 
-class BookmarkListView(generics.ListCreateAPIView):
+class BookmarkCreateView(generics.CreateAPIView):
     """
-    Bookmark instance 목록, 생성
+    Bookmark instance 생성
     """
-    queryset = Bookmark.objects.all()
     serializer_class = serializers.BookmarkSerializer
 
 

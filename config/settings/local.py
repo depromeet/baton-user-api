@@ -5,7 +5,7 @@ import json
 
 
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 BASE_URL = 'http://127.0.0.1:8000/'
 
 # Environment variable setting
@@ -24,5 +24,5 @@ def get_secret(setting):
 
 
 SECRET_KEY = get_secret("SECRET_KEY")
-DATABASES = get_secret('DATABASES_LOCAL')
+DATABASES = get_secret('DATABASES_DOCKER')
 KAKAO_REST_API_KEY = get_secret('KAKAO_REST_API_KEY')

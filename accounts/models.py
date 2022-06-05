@@ -39,9 +39,9 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
 
     Username and password are required. Other fields are optional.
     """
-    id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+    # id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     uid = models.CharField(_('uid'), max_length=255)
-    provider = models.CharField(_('provider'), max_length=30)
+    provider = models.CharField(_('provider'), max_length=255)
 
     objects = SocialUserManager()
 
@@ -49,6 +49,7 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['provider', 'uid']
 
     class Meta:
+        managed = True
         verbose_name = _('social user')
         verbose_name_plural = _('social users')
 
@@ -64,3 +65,6 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         """All superusers are staff"""
         return self.is_superuser
+
+    def __str__(self):
+        return str(self.get_username())

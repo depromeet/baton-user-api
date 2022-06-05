@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 
 DEBUG = False
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']  # TODO 수정
 
 BASE_URL = 'https://baton.yonghochoi.com/'
 
