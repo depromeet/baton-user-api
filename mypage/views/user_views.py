@@ -16,9 +16,9 @@ class UserCreateView(generics.CreateAPIView):
     serializer_class = serializers.UserCreateSerializer
 
 
-class UserDetailView(generics.RetrieveAPIView):
+class UserDetailView(generics.RetrieveDestroyAPIView):
     """
-    마이페이지
+    마이페이지 (+회원탈퇴)
     """
     queryset = User.objects.all()
     serializer_class = serializers.UserDetailSerializer
@@ -31,6 +31,17 @@ class UserDetailView(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         """
         마이페이지; 사용자ID가 {id}인 사용자의 상세 정보
+        """
+        return super().get(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
+        ],
+    )
+    def delete(self, request, *args, **kwargs):
+        """
+        회원탈퇴; 사용자ID가 {id}인 사용자 삭제
         """
         return super().get(request, *args, **kwargs)
 
