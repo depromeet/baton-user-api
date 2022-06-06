@@ -21,6 +21,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     회원가입
     """
     id = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())
+    # id = serializers.IntegerField()
     account = AccountSerializer(required=False)
     latitude = serializers.FloatField(write_only=True)
     longitude = serializers.FloatField(write_only=True)

@@ -1,4 +1,3 @@
-from django.apps import apps
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
@@ -39,7 +38,6 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
 
     Username and password are required. Other fields are optional.
     """
-    # id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     uid = models.CharField(_('uid'), max_length=255)
     provider = models.CharField(_('provider'), max_length=255)
 
@@ -49,7 +47,7 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['provider', 'uid']
 
     class Meta:
-        managed = True
+        managed = False
         verbose_name = _('social user')
         verbose_name_plural = _('social users')
 
