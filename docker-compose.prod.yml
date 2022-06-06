@@ -6,7 +6,7 @@ services:
       context: ./auth-server
       dockerfile: Dockerfile.prod
     image: ${ECR_REGISTRY}/baton-auth-server:${IMAGE_TAG}
-    container_name: baton-auth-server
+    container_name: auth-server
     command: gunicorn --bind 0:8080 config.wsgi:application
     ports:
       - "8080:8080"
@@ -18,7 +18,7 @@ services:
       context: ./user-api
       dockerfile: Dockerfile.prod
     image: ${ECR_REGISTRY}/baton-user-api:${IMAGE_TAG}
-    container_name: baton-user-api
+    container_name: user-api
     command: gunicorn --bind 0:8000 config.wsgi:application
     ports:
       - "8000:8000"
