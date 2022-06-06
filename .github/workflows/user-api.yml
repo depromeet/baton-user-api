@@ -43,6 +43,8 @@ jobs:
           echo "DATABASES_HOST=${{ secrets.DATABASES_HOST }}" >> .env.prod
           echo "DATABASES_PORT=${{ secrets.DATABASES_PORT }}" >> .env.prod
           echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> .env.prod
+          cp .env.prod /auth-server
+          cp .env.prod /user-api
           cat .env.prod
 
       - name: Setting .env for docker-compose
