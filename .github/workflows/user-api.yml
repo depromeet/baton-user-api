@@ -53,6 +53,7 @@ jobs:
 
       - name: Build and push image to Amazon ECR
         run: |
+          docker-compose -f docker-compose.prod.yml build
           docker-compose -f docker-compose.prod.yml push
 #          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
 #          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest .
