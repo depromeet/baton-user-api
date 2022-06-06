@@ -56,3 +56,4 @@ jobs:
           docker-compose push -f docker-compose.prod.yaml
 #          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
 #          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+
