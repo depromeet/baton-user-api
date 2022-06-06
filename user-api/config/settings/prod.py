@@ -27,3 +27,12 @@ DATABASES = {
 }
 
 KAKAO_REST_API_KEY = env('KAKAO_REST_API_KEY')
+
+REST_FRAMEWORK.update({
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
+})
