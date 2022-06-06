@@ -1,7 +1,6 @@
 from .base import *
 
-import os
-from dotenv import load_dotenv
+import environ
 
 
 DEBUG = False
@@ -9,28 +8,22 @@ ALLOWED_HOSTS = ['*']  # TODO 수정
 
 BASE_URL = 'https://baton.yonghochoi.com/'
 
-load_dotenv()
+
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / '.env.prod')
 
 
-def get_secret(setting):
-    try:
-        return os.environ[setting]
-    except KeyError:
-        error_msg = f'Set the {setting} environment variable'
-        raise ImproperlyConfigured(error_msg)
-
-
-SECRET_KEY = get_secret("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": get_secret("DATABASES_NAME"),
-        "USER": get_secret("DATABASES_USER"),
-        "PASSWORD": get_secret("DATABASES_PASSWORD"),
-        "HOST": get_secret("DATABASES_HOST"),
-        "PORT": get_secret("DATABASES_PORT"),
+        "NAME": env("DATABASES_NAME"),
+        "USER": env("DATABASES_USER"),
+        "PASSWORD": env("DATABASES_PASSWORD"),
+        "HOST": env("DATABASES_HOST"),
+        "PORT": env("DATABASES_PORT"),
     }
 }
 
-KAKAO_REST_API_KEY = get_secret('KAKAO_REST_API_KEY')
+KAKAO_REST_API_KEY = env('KAKAO_REST_API_KEY')

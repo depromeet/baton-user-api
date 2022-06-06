@@ -8,7 +8,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 BASE_URL = 'http://127.0.0.1:8000/'
 
 env = environ.Env()
-environ.Env.read_env(BASE_DIR / '.env.docker')
+environ.Env.read_env(BASE_DIR / '.env.local')
 
 
 SECRET_KEY = env("SECRET_KEY")

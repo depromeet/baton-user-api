@@ -11,13 +11,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
+      - ./.env.local:/app/.env.local
       - ./auth-server:/app
-#    environment:
-#      - POSTGRES_NAME=postgres
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
-#    depends_on:
-#      - db
+
   user-api:
     image: user-api:latest
     build:
@@ -28,5 +24,6 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      - ./.env.local:/app/.env.local
       - ./user-api:/app
 
