@@ -36,6 +36,7 @@ jobs:
 
       - name: Setting .env.prod for each apps
         run: |
+          touch .env.prod
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env.prod
           echo "DATABASES_NAME=${{ secrets.DATABASES_NAME }}" >> .env.prod
           echo "DATABASES_USER=${{ secrets.DATABASES_USER }}" >> .env.prod
@@ -45,13 +46,11 @@ jobs:
           echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> .env.prod
           cp .env.prod /auth-server
           cp .env.prod /user-api
-          cat .env.prod
 
       - name: Setting .env for docker-compose
         run: |
           echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> .env
           echo "IMAGE_TAG=${{ github.sha }}" >> .env
-          cat .env
 
       - name: Build and push image to Amazon ECR
         run: |
