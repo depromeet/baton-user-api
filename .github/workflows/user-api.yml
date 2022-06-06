@@ -36,7 +36,6 @@ jobs:
 
       - name: Setting .env.prod for each apps
         run: |
-          touch .env.prod
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env.prod
           echo "DATABASES_NAME=${{ secrets.DATABASES_NAME }}" >> .env.prod
           echo "DATABASES_USER=${{ secrets.DATABASES_USER }}" >> .env.prod
@@ -44,8 +43,8 @@ jobs:
           echo "DATABASES_HOST=${{ secrets.DATABASES_HOST }}" >> .env.prod
           echo "DATABASES_PORT=${{ secrets.DATABASES_PORT }}" >> .env.prod
           echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> .env.prod
-          cp .env.prod /auth-server
-          cp .env.prod /user-api
+          cp .env.prod auth-server/
+          cp .env.prod user-api/
 
       - name: Setting .env for docker-compose
         run: |
