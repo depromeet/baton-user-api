@@ -7,6 +7,6 @@ secrets.json
 logs
 media/**
 */mypage/migrations
-/.env*
+**/.env*
 
 

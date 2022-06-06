@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  auth-server:
+    image: auth-server:latest
+    build:
+      context: ./auth-server
+      dockerfile: Dockerfile.local
+    container_name: auth-server
+    command: python manage.py runserver 0.0.0.0:8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./auth-server:/app
+#    environment:
+#      - POSTGRES_NAME=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#    depends_on:
+#      - db
+  user-api:
+    image: user-api:latest
+    build:
+      context: ./user-api
+      dockerfile: Dockerfile.local
+    container_name: user-api
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./user-api:/app
+
