@@ -26,4 +26,3 @@ services:
     volumes:
       - ./.env.local:/app/.env.local
       - ./user-api:/app
-
