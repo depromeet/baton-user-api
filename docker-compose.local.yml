@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  auth-server:
+    image: auth-server:latest
+    build:
+      context: ./auth-server
+      dockerfile: Dockerfile.local
+    container_name: auth-server
+    command: python manage.py runserver 0.0.0.0:8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./.env.local:/app/.env.local
+      - ./auth-server:/app
+
+  user-api:
+    image: user-api:latest
+    build:
+      context: ./user-api
+      dockerfile: Dockerfile.local
+    container_name: user-api
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./.env.local:/app/.env.local
+      - ./user-api:/app
+

@@ -1,8 +1,8 @@
-from accounts.serializers import KaKaoLoginSerializer
+from accounts import serializers
 from accounts.mixins import SocialLoginMixin, LogoutMixin
 from accounts.serializers import JWTSerializer
 
-from rest_framework.generics import GenericAPIView
+from rest_framework import generics
 from drf_yasg.utils import swagger_auto_schema
 
 import requests
@@ -44,7 +44,9 @@ def kakao_callback(request):  # TODO 프론트에서 담당
     return JsonResponse(token_resp_json)
 
 
-class SocialLoginView(GenericAPIView, SocialLoginMixin):
+class SocialLoginView(generics.GenericAPIView, SocialLoginMixin):
+    provider = None
+
     @swagger_auto_schema(
         responses={200: JWTSerializer}
     )
@@ -53,9 +55,20 @@ class SocialLoginView(GenericAPIView, SocialLoginMixin):
 
 
 class KakaoLoginView(SocialLoginView):
-    serializer_class = KaKaoLoginSerializer
+    serializer_class = serializers.KaKaoLoginSerializer
     provider = 'kakao'
 
 
-class LogoutView(GenericAPIView, LogoutMixin):
+class SocialSignupView(generics.CreateAPIView):
+    """
+    회원가입
+    """
+    serializer_class = serializers.SocialUserCreateSerializer
+    provider = None
+
+    def perform_create(self, serializer):
+        serializer.save(provider=self.provider)  # TODO serializer 필드에 provider 없어도 가능?
+
+
+class LogoutView(generics.GenericAPIView, LogoutMixin):
     pass

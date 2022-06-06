@@ -34,24 +34,26 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Setting .env
+      - name: Setting .env.prod for each apps
         run: |
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-          echo "DATABASES_NAME=${{ secrets.DATABASES_NAME }}" >> .env
-          echo "DATABASES_USER=${{ secrets.DATABASES_USER }}" >> .env
-          echo "DATABASES_PASSWORD=${{ secrets.DATABASES_PASSWORD }}" >> .env
-          echo "DATABASES_HOST=${{ secrets.DATABASES_HOST }}" >> .env
-          echo "DATABASES_PORT=${{ secrets.DATABASES_PORT }}" >> .env
-          echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> .env
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env.prod
+          echo "DATABASES_NAME=${{ secrets.DATABASES_NAME }}" >> .env.prod
+          echo "DATABASES_USER=${{ secrets.DATABASES_USER }}" >> .env.prod
+          echo "DATABASES_PASSWORD=${{ secrets.DATABASES_PASSWORD }}" >> .env.prod
+          echo "DATABASES_HOST=${{ secrets.DATABASES_HOST }}" >> .env.prod
+          echo "DATABASES_PORT=${{ secrets.DATABASES_PORT }}" >> .env.prod
+          echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> .env.prod
+          cat .env.prod
+
+      - name: Setting .env for docker-compose
+        run: |
+          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> .env
+          echo "IMAGE_TAG=${{ github.sha }}" >> .env
           cat .env
 
-      - name: Build, tag, and push image to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: baton-user-api
-          IMAGE_TAG: ${{ github.sha }}
+      - name: Build and push image to Amazon ECR
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker image tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker-compose push -f docker-compose.prod.yaml
+#          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+

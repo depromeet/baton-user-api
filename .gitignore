@@ -6,5 +6,7 @@ __pycache__
 secrets.json
 logs
 media/**
-mypage/migrations
-~$*
+*/mypage/migrations
+**/.env*
+
+

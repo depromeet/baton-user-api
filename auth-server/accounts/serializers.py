@@ -1,6 +1,6 @@
 from accounts.models import SocialUser
 from mypage.models import User  # TODO TEMP
-from mypage.serializers.user_serializers import UserCreateSerializer
+from mypage.serializers import UserCreateSerializer
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
