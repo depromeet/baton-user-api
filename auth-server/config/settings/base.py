@@ -188,8 +188,7 @@ LOGGING = {
             "class": "django.utils.log.AdminEmailHandler",
         },
         'file': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_false'],
+            'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': BASE_DIR / 'logs/auth-server.log',
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
