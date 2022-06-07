@@ -87,6 +87,5 @@ class SocialUserDeleteView(generics.DestroyAPIView):
         instance.delete()
 
 
-
 class LogoutView(generics.GenericAPIView, LogoutMixin):
     pass
