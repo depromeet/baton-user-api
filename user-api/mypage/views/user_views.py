@@ -32,7 +32,7 @@ class UserDetailView(generics.RetrieveDestroyAPIView):
         """
         마이페이지; 사용자ID가 {id}인 사용자의 상세 정보
         """
-        return super().get(request, *args, **kwargs)
+        return self.retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
         manual_parameters=[
@@ -43,7 +43,7 @@ class UserDetailView(generics.RetrieveDestroyAPIView):
         """
         회원탈퇴; 사용자ID가 {id}인 사용자 삭제
         """
-        return super().get(request, *args, **kwargs)
+        return self.destroy(request, *args, **kwargs)
 
 
 class UserSellView(generics.ListAPIView):

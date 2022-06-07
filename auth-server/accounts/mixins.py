@@ -2,9 +2,11 @@ from accounts.serializers import JWTSerializer
 from accounts.models import SocialUser
 
 from rest_framework import status
+from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from django.http import JsonResponse
+from django.db import IntegrityError
 
 
 class SocialLoginMixin:
@@ -35,6 +37,23 @@ class SocialLoginMixin:
                 'user': social_user,
             }
             return JsonResponse(JWTSerializer(data).data, status=status.HTTP_200_OK)
+
+    def signup(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            social_user = serializer.save(provider=self.provider)
+        except IntegrityError as exc:
+            JsonResponse(exc, status=status.HTTP_409_CONFLICT)
+        else:
+            access_token, refresh_token = self.create_token(social_user)
+            data = {
+                'access_token': access_token,
+                'refresh_token': refresh_token,
+                'user': social_user,
+            }
+            return JsonResponse(JWTSerializer(data).data, status=status.HTTP_201_CREATED)
 
 
 class LogoutMixin:

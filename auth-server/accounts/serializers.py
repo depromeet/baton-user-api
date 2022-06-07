@@ -1,11 +1,36 @@
 from accounts.models import SocialUser
-from mypage.models import User  # TODO TEMP
 from mypage.serializers import UserCreateSerializer
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+
+from django.conf import settings
+from django.db import IntegrityError
 from django.utils.translation import gettext as _
+
 import requests
+
+
+class JWTUserSerializer(serializers.ModelSerializer):
+    """
+    로그인 성공 시 반환하는 사용자 정보
+    """
+
+    class Meta:
+        model = SocialUser
+        fields = ['id']
+        extra_kwargs = {
+            'id': {'help_text': 'User ID'},
+        }
+
+
+class JWTSerializer(serializers.Serializer):
+    """
+    로그인 성공 시 반환하는 JWT 토큰의 내용
+    """
+    access_token = serializers.CharField(help_text='Baton App 인증을 위한 Access Token')
+    refresh_token = serializers.CharField(help_text='Baton App Access Token 갱신을 위한 Refresh Token')
+    user = JWTUserSerializer()
 
 
 class SocialLoginSerializer(serializers.Serializer):
@@ -30,7 +55,7 @@ class SocialLoginSerializer(serializers.Serializer):
         extra_data = response.json()
         attrs['uid'] = self.extract_uid(extra_data)
         attrs.update(self.extract_common_fields(extra_data))
-        self.validate_common_fields(attrs)
+        # self.validate_common_fields(attrs)
         return attrs
 
     def validate_common_fields(self, attrs):
@@ -59,28 +84,6 @@ class KaKaoLoginSerializer(SocialLoginSerializer):
         return common_fields
 
 
-class JWTUserSerializer(serializers.ModelSerializer):
-    """
-    로그인 성공 시 반환하는 사용자 정보
-    """
-
-    class Meta:
-        model = SocialUser
-        fields = ['id']
-        extra_kwargs = {
-            'id': {'help_text': 'User ID'},
-        }
-
-
-class JWTSerializer(serializers.Serializer):
-    """
-    로그인 성공 시 반환하는 JWT 토큰의 내용
-    """
-    access_token = serializers.CharField(help_text='Baton App 인증을 위한 Access Token')
-    refresh_token = serializers.CharField(help_text='Baton App Access Token 갱신을 위한 Refresh Token')
-    user = JWTUserSerializer()
-
-
 class SocialUserCreateSerializer(serializers.ModelSerializer):
     """
     회원가입 요청 시 전달 받는 데이터
@@ -93,12 +96,15 @@ class SocialUserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # create social_user
+        user_data = validated_data.pop('user')
         try:
-            user_data = validated_data.pop('user')
-        except IndexError:
-            raise IndexError('사용자 정보 미포함')
+            social_user = super().create(validated_data)
+        except IntegrityError as exc:
+            raise IntegrityError({exc: '이미 가입된 사용자입니다.'})
         else:
-            social_user = SocialUser.objects.create_user(provider=self.provider, uid=validated_data['uid'])
-            app_user = User.objects.create(id=social_user, **user_data)
+            user_data['id'] = social_user.id
+            user_create_url = getattr(settings, 'UESR_API_BASE_URL') + 'user/users'
+            response = requests.post(user_create_url, data=user_data)
+            response.raise_for_status()
 
-        return social_user
+            return social_user
