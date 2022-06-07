@@ -20,7 +20,7 @@ def kakao_login(request):  # TODO 프론트에서 담당
 
     query_kwargs = {
         'client_id': getattr(settings, 'KAKAO_REST_API_KEY'),
-        'redirect_uri': getattr(settings, 'BASE_URL') + reverse('accounts:kakao-callback'),
+        'redirect_uri': getattr(settings, 'BASE_URL') + reverse('kakao-callback'),
         'response_type': 'code',
     }
     return redirect(f'{authorize_url}?{urlencode(query_kwargs)}')
@@ -32,7 +32,7 @@ def kakao_callback(request):  # TODO 프론트에서 담당
     query_kwargs = {
         'grant_type': 'authorization_code',
         'client_id': getattr(settings, 'KAKAO_REST_API_KEY'),
-        'redirect_uri': getattr(settings, 'BASE_URL') + reverse('accounts:kakao-callback'),
+        'redirect_uri': getattr(settings, 'BASE_URL') + reverse('kakao-callback'),
         'code': request.GET.get("code"),
     }
 
