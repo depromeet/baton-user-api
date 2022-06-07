@@ -99,8 +99,8 @@ class SocialUserCreateSerializer(serializers.ModelSerializer):
         user_data = validated_data.pop('user')
         try:
             social_user = super().create(validated_data)
-        except IntegrityError as exc:
-            raise IntegrityError({exc: '이미 가입된 사용자입니다.'})
+        except IntegrityError as error:
+            raise error
         else:
             user_data['id'] = social_user.id
             user_create_url = getattr(settings, 'UESR_API_BASE_URL') + 'user/users'

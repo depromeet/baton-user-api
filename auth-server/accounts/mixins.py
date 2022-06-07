@@ -2,7 +2,6 @@ from accounts.serializers import JWTSerializer
 from accounts.models import SocialUser
 
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from django.http import JsonResponse
@@ -44,8 +43,9 @@ class SocialLoginMixin:
 
         try:
             social_user = serializer.save(provider=self.provider)
-        except IntegrityError as exc:
-            JsonResponse(exc, status=status.HTTP_409_CONFLICT)
+        except IntegrityError as error:
+            return JsonResponse({'detail': error.args[1]}, status=status.HTTP_409_CONFLICT)
+            # return JsonResponse({'detail': "이미 존재하는 사용자입니다."}, status=status.HTTP_409_CONFLICT)
         else:
             access_token, refresh_token = self.create_token(social_user)
             data = {
