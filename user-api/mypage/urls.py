@@ -1,8 +1,6 @@
 from django.urls import path
 from mypage.views import user_views, ticket_views
 
-app_name = 'mypage'
-
 
 urlpatterns = [
     path('users', user_views.UserCreateView.as_view(), name='user-create'),

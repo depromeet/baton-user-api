@@ -46,12 +46,13 @@ class SocialUser(AbstractBaseUser, PermissionsMixin):
     objects = SocialUserManager()
 
     USERNAME_FIELD = 'id'
-    REQUIRED_FIELDS = ['provider', 'uid']
+    REQUIRED_FIELDS = ['uid', 'provider']
 
     class Meta:
         managed = True
         verbose_name = _('social user')
         verbose_name_plural = _('social users')
+        unique_together = (('uid', 'provider'),)
 
     # def clean(self):
     #     super().clean()
