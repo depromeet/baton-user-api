@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.prod
     image: ${ECR_REGISTRY}/baton-auth-server:${IMAGE_TAG}
     container_name: auth-server
-    command: gunicorn --bind 0:8080 config.wsgi:application
+    command: gunicorn --bind 0:8080 config.wsgi:application --reload
     ports:
       - "8080:8080"
     volumes:
@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile.prod
     image: ${ECR_REGISTRY}/baton-user-api:${IMAGE_TAG}
     container_name: user-api
-    command: gunicorn --bind 0:8000 config.wsgi:application
+    command: gunicorn --bind 0:8000 config.wsgi:application --reload
     ports:
       - "8000:8000"
     volumes:
