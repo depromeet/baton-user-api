@@ -53,12 +53,11 @@ class UserDetailSerializer(serializers.ModelSerializer):
     """
     마이페이지 사용자 정보
     """
-    id = serializers.IntegerField(source='id.id')  # TODO id__id 안됨
     account = AccountSerializer()
 
     class Meta:
         model = User
-        fields = ['id', 'name', 'nickname', 'phone_number', 'created_on', 'account', ]
+        fields = ['id', 'name', 'nickname', 'phone_number', 'created_on', 'account', 'address', 'detailed_address']
 
 
 class TicketListSerializer(serializers.ModelSerializer):
