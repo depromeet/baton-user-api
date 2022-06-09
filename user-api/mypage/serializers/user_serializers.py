@@ -5,6 +5,9 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 
+from math import sin, cos, radians, degrees, acos
+
+
 
 class AccountSerializer(serializers.ModelSerializer):
     """
@@ -74,6 +77,7 @@ class TicketListSerializer(serializers.ModelSerializer):
     expiryDate = serializers.DateField(source='expiry_date')
     latitude = serializers.FloatField(source='point.x')
     longitude = serializers.FloatField(source='point.y')
+    distance = serializers.SerializerMethodField()  # get_distance()가 자동으로 연결됨
 
     class Meta:
         model = Ticket
@@ -83,9 +87,16 @@ class TicketListSerializer(serializers.ModelSerializer):
             'id': {'help_text': 'Ticket ID'},
         }
 
-    def get_distance(self, ticket, user):
-        self.context.user_point
-        ticket.point.distance(user.point) * 100 * 1000  # meter 단위로 환산
+    def get_distance(self, obj):
+        user_point = self.context['user_point']
+
+        lat1, lon1 = radians(user_point.x), radians(user_point.y)
+        lat2, lon2 = radians(obj.point.x), radians(obj.point.y)
+        long_diff = lon1 - lon2
+
+        distance_radian = sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long_diff)
+        distance_meter = degrees(acos(distance_radian)) * 60 * 1.1515 * 1609.344
+        return distance_meter
 
 
 class UserBuySerializer(serializers.ModelSerializer):

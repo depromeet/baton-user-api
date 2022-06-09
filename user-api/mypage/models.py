@@ -21,7 +21,7 @@ class User(models.Model):
     phone_number = models.CharField(max_length=255)
     created_on = models.DateField(auto_now_add=True)
     account = models.OneToOneField('Account', blank=True, null=True, on_delete=models.CASCADE)  # TODO has_account 추가?
-    point = models.PointField()
+    point = models.PointField(srid=4326)
     address = models.CharField(max_length=255)
     detailed_address = models.CharField(max_length=255, blank=True)
     check_terms_of_service = models.BooleanField()
@@ -85,7 +85,7 @@ class Ticket(models.Model):
     description = models.CharField(max_length=255)
     thumbnail = models.CharField(max_length=255, blank=True, null=True)
     transfer_fee = models.IntegerField()
-    point = models.PointField()
+    point = models.PointField(srid=4326)
     address = models.CharField(max_length=255)
     main_image = models.CharField(max_length=255, blank=True, null=True)
     expiry_date = models.DateField(blank=True, null=True)
