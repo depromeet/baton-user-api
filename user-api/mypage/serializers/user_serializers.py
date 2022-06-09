@@ -3,7 +3,7 @@ from mypage.models import Ticket, Bookmark, Buy, User, Account
 from rest_framework import serializers
 
 from django.contrib.auth import get_user_model
-# from django.contrib.gis.geos import Point
+from django.contrib.gis.geos import Point
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -40,9 +40,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
             account = Account.objects.create(**account_data)
             validated_data['account'] = account
 
-        x = validated_data.pop('longitude')
-        y = validated_data.pop('latitude')
-        # validated_data['point'] = Point(x, y)
+        latitude = validated_data.pop('latitude')
+        longitude = validated_data.pop('longitude')
+        validated_data['point'] = Point(longitude, latitude, srid=4326)
 
         # create user
         user = User.objects.create(**validated_data)
@@ -54,10 +54,13 @@ class UserDetailSerializer(serializers.ModelSerializer):
     마이페이지 사용자 정보
     """
     account = AccountSerializer()
+    latitude = serializers.FloatField(source='point.x')
+    longitude = serializers.FloatField(source='point.y')
 
     class Meta:
         model = User
-        fields = ['id', 'name', 'nickname', 'phone_number', 'created_on', 'account', 'address', 'detailed_address']
+        fields = ['id', 'name', 'nickname', 'phone_number', 'created_on', 'account',
+                  'latitude', 'longitude', 'address', 'detailed_address', ]
 
 
 class TicketListSerializer(serializers.ModelSerializer):
@@ -69,16 +72,20 @@ class TicketListSerializer(serializers.ModelSerializer):
     isMembership = serializers.BooleanField(source='is_membership')
     remainingNumber = serializers.IntegerField(source='remaining_number')
     expiryDate = serializers.DateField(source='expiry_date')
-    latitude = serializers.FloatField()
-    longitude = serializers.FloatField()
+    latitude = serializers.FloatField(source='point.x')
+    longitude = serializers.FloatField(source='point.y')
 
     class Meta:
         model = Ticket
         fields = ['id', 'location', 'address', 'price', 'mainImage', 'createAt', 'state', 'tags', 'images',
-                  'isMembership', 'remainingNumber', 'expiryDate', 'latitude', 'longitude']
+                  'isMembership', 'remainingNumber', 'expiryDate', 'latitude', 'longitude', 'distance', ]
         extra_kwargs = {
             'id': {'help_text': 'Ticket ID'},
         }
+
+    def get_distance(self, ticket, user):
+        self.context.user_point
+        ticket.point.distance(user.point) * 100 * 1000  # meter 단위로 환산
 
 
 class UserBuySerializer(serializers.ModelSerializer):
