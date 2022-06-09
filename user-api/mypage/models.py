@@ -5,8 +5,9 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from django.db import models
 from django.conf import settings
+# from django.db import models
+from django.contrib.gis.db import models
 
 TEST = False
 
@@ -20,7 +21,7 @@ class User(models.Model):
     phone_number = models.CharField(max_length=255)
     created_on = models.DateField(auto_now_add=True)
     account = models.OneToOneField('Account', blank=True, null=True, on_delete=models.CASCADE)  # TODO has_account 추가?
-    # point = models.PointField()
+    point = models.PointField(srid=4326)
     address = models.CharField(max_length=255)
     detailed_address = models.CharField(max_length=255, blank=True)
     check_terms_of_service = models.BooleanField()
@@ -84,12 +85,12 @@ class Ticket(models.Model):
     description = models.CharField(max_length=255)
     thumbnail = models.CharField(max_length=255, blank=True, null=True)
     transfer_fee = models.IntegerField()
-    # point = models.TextField()  # This field type is a guess.
+    point = models.PointField(srid=4326)
     address = models.CharField(max_length=255)
     main_image = models.CharField(max_length=255, blank=True, null=True)
     expiry_date = models.DateField(blank=True, null=True)
 
-    buyer = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, related_name='buy_tickets')
+    # buyer = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, related_name='buy_tickets')
     bookmark_users = models.ManyToManyField('User', through='Bookmark', related_name='bookmark_tickets')
     tags = models.ManyToManyField('Tag', through='TicketTag', related_name='tickets')
 

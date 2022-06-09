@@ -5,5 +5,7 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY . .
+RUN chmod +x script.sh
+RUN ./script.sh
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt

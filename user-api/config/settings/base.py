@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     # my app
     'accounts.apps.AccountsConfig',
     'mypage.apps.MypageConfig',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     # swagger
     'drf_yasg',
 ]
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

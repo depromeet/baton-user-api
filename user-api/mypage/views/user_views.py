@@ -54,11 +54,16 @@ class UserSellView(generics.ListAPIView):
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
-        user = get_object_or_404(User, pk=pk)
+        self.user = get_object_or_404(User, pk=pk)
         state = self.request.query_params.get('state', '0')
         if state not in {'0', '2'}:
             raise Http404('Ticket state value error.')
-        return user.sell_tickets.filter(state=state)
+        return self.user.sell_tickets.filter(state=state)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['user_point'] = self.user.point
+        return context
 
     @swagger_auto_schema(
         manual_parameters=[
@@ -71,7 +76,7 @@ class UserSellView(generics.ListAPIView):
         """
         판매내역; 사용자ID가 {id}인 사용자가 구매한 양도권 목록
         """
-        return super().get(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
 
 
 class UserBuyView(generics.ListAPIView):
@@ -82,8 +87,13 @@ class UserBuyView(generics.ListAPIView):
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
-        user = get_object_or_404(User, pk=pk)
-        return user.buys
+        self.user = get_object_or_404(User, pk=pk)
+        return self.user.buys
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['user_point'] = self.user.point
+        return context
 
     @swagger_auto_schema(
         manual_parameters=[
@@ -94,7 +104,7 @@ class UserBuyView(generics.ListAPIView):
         """
         구매내역; 사용자ID가 {id}인 사용자가 판매한 양도권 목록
         """
-        return super().get(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
 
 
 class UserBookmarkView(generics.ListAPIView):
@@ -105,16 +115,21 @@ class UserBookmarkView(generics.ListAPIView):
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
-        user = get_object_or_404(User, pk=pk)
+        self.user = get_object_or_404(User, pk=pk)
         state = self.request.query_params.get('state')
         if state:
             if state == '':
-                return user.bookmarks.all()
+                return self.user.bookmarks.all()
             elif state in {'0', '1', '2'}:
-                return user.bookmarks.filter(ticket__state=state)
+                return self.user.bookmarks.filter(ticket__state=state)
             else:
                 raise Http404('Ticket state value error.')
-        return user.bookmarks
+        return self.user.bookmarks
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['user_point'] = self.user.point
+        return context
 
     @swagger_auto_schema(
         manual_parameters=[
@@ -127,4 +142,4 @@ class UserBookmarkView(generics.ListAPIView):
         """
         관심상품; 사용자ID가 {id}인 사용자의 관심상품 목록
         """
-        return super().get(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
