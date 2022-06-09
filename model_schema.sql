@@ -19,7 +19,7 @@
 --   PRIMARY KEY (`id`)
 -- );
 
-DROP TABLE IF EXISTS `Account`, `User`, `Ticket`, `Taguser`, `Buy`, `Bookmark`, `TicketTag`, `TicketImage`;
+DROP TABLE IF EXISTS `Account`, `User`, `Ticket`, `Tag`, `Buy`, `Bookmark`, `TicketTag`, `TicketImage`;
 
 CREATE TABLE `Account` (
     `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
