@@ -27,6 +27,7 @@ class SocialLoginMixin:
         try:
             social_user = SocialUser.objects.get(provider=self.provider, uid=uid)
         except SocialUser.DoesNotExist:  # 신규 회원일 때 TODO 필드 직접 입력하기, nickname 없을 경우 에러 반환
+            serializer.validated_data['provider'] = self.provider
             return JsonResponse(data=serializer.validated_data, status=status.HTTP_401_UNAUTHORIZED)
         else:
             access_token, refresh_token = self.create_token(social_user)
@@ -42,7 +43,7 @@ class SocialLoginMixin:
         serializer.is_valid(raise_exception=True)
 
         try:
-            social_user = serializer.save(provider=self.provider)
+            social_user = serializer.save()
         except IntegrityError as error:
             return JsonResponse({'detail': error.args[1]}, status=status.HTTP_409_CONFLICT)
             # return JsonResponse({'detail': "이미 존재하는 사용자입니다."}, status=status.HTTP_409_CONFLICT)

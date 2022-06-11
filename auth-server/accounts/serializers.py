@@ -92,7 +92,15 @@ class SocialUserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SocialUser
-        fields = ['uid', 'user']
+        fields = ['uid', 'provider', 'user']
+
+    def validate_provider(self, value):
+        """
+        provider가 지원하는 소셜 서비스 중 하나인지 검사
+        """
+        if value not in getattr(settings, 'PROVIDER_LIST'):
+            raise ValidationError("지원하지 않는 소셜 서비스입니다.")
+        return value
 
     def create(self, validated_data):
         # create social_user
