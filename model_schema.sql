@@ -18,7 +18,6 @@
 --   `provider` varchar(255) NOT NULL,
 --   PRIMARY KEY (`id`)
 -- );
-use baton;
 
 DROP TABLE IF EXISTS `Account`, `User`, `Ticket`, `Tag`, `Buy`, `Bookmark`, `TicketTag`, `TicketImage`;
 
@@ -129,7 +128,7 @@ ALTER TABLE `Ticket` ADD `main_image` varchar(255);
 
 ALTER TABLE `Ticket` add column expiry_date date;
 
-ALTER TABLE `Ticket` add column bookmark_count int not null;
+ALTER TABLE `Ticket` add column bookmark_count int not null default 0;
 
 
 /*
