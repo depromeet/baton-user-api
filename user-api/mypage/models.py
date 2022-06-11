@@ -13,9 +13,9 @@ TEST = False
 
 
 class User(models.Model):
-    id = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE,
-                              db_column='id', related_name='app_user', help_text='User ID(integer)')
-    # id = models.IntegerField(primary_key=True, )
+    # id = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE,
+    #                           db_column='id', related_name='app_user', help_text='User ID(integer)')
+    id = models.IntegerField(primary_key=True, )
     name = models.CharField(max_length=255)
     nickname = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
