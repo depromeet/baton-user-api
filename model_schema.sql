@@ -130,6 +130,7 @@ ALTER TABLE `Ticket` add column expiry_date date;
 
 ALTER TABLE `Ticket` add column bookmark_count int not null default 0;
 
+ALTER TABLE `Ticket` add column view_count int not null default 0;
 
 /*
 DB 테스트 데이터 삽입 SQL 코드입니다. commit 규칙은 아래와 같습니다.
@@ -153,10 +154,10 @@ INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`,`poin
 INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`,`point`,`address`,`detailed_address`,`check_terms_of_service`,`check_privacy_policy`)
      VALUES (4, '넷', '별명넷', '01044444444', '2022-04-04',ST_GeomFromText('POINT(37.287940866472375 127.05201020528645)', 4326),'경기도 수원시 영통구 도청로','광교중앙역 1번출구',1,1);
 
-INSERT INTO `Ticket` VALUES (1,1,'장ㅈ',10000,'2022-06-01 04:41:14',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로',NULL,'2023-04-05', 1);
-INSERT INTO `Ticket` VALUES (2,1,'장ㅈ',10000,'2022-06-01 15:38:16',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg','2023-04-05', 1);
-INSERT INTO `Ticket` VALUES (3,1,'장ㅈ',10000,'2022-06-01 17:53:15',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg','2023-04-05', 0);
-INSERT INTO `Ticket` VALUES (4,2,'장ㅈ',10000,'2022-06-01 18:34:23',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로',NULL,'2023-04-05', 1);
+INSERT INTO `Ticket` VALUES (1,1,'장ㅈ',10000,'2022-06-01 04:41:14',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로',NULL,'2023-04-05', 1, 0);
+INSERT INTO `Ticket` VALUES (2,1,'장ㅈ',10000,'2022-06-01 15:38:16',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg','2023-04-05', 1, 0);
+INSERT INTO `Ticket` VALUES (3,1,'장ㅈ',10000,'2022-06-01 17:53:15',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg','2023-04-05', 0, 0);
+INSERT INTO `Ticket` VALUES (4,2,'장ㅈ',10000,'2022-06-01 18:34:23',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로',NULL,'2023-04-05', 1, 0);
 
 INSERT INTO `TicketImage` VALUES (1,2,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/26c56d80-70fc-4068-8f7e-5721252b5296.jpeg',0,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg'),(2,3,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg',0,'https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_698a8e1e-a7f1-42d2-9c39-14681148356e.jpeg');
 
