@@ -11,6 +11,7 @@ from urllib.parse import urlencode
 from json.decoder import JSONDecodeError
 from django.http import JsonResponse
 from django.conf import settings
+from django.db import transaction
 from django.shortcuts import redirect
 from django.urls import reverse
 
@@ -69,6 +70,7 @@ class SocialUserCreateView(generics.CreateAPIView, SocialLoginMixin):
     @swagger_auto_schema(
         responses={200: JWTSerializer}
     )
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         self.provider = self.kwargs.get('provider')
         return self.signup(request, *args, **kwargs)
@@ -79,6 +81,10 @@ class SocialUserDeleteView(generics.DestroyAPIView):
     회원탈퇴
     """
     queryset = SocialUser.objects.all()
+
+    @transaction.atomic
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
         user_delete_url = getattr(settings, 'USER_API_BASE_URL') + f'user/users/{instance.id}'
