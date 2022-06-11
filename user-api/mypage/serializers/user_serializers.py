@@ -2,7 +2,7 @@ from mypage.models import Ticket, Bookmark, Buy, User, Account
 
 from rest_framework import serializers
 
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 
 from math import sin, cos, radians, degrees, acos
@@ -22,8 +22,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
     """
     회원가입
     """
-    id = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())
-    # id = serializers.IntegerField()
+    # id = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())
+    id = serializers.IntegerField()
     account = AccountSerializer(required=False)
     latitude = serializers.FloatField(write_only=True)
     longitude = serializers.FloatField(write_only=True)
