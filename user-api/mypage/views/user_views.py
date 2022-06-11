@@ -1,7 +1,8 @@
-from mypage.models import User
+from mypage.models import User, Account
 from mypage.serializers import user_serializers as serializers
 
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
@@ -16,17 +17,20 @@ class UserCreateView(generics.CreateAPIView):
     serializer_class = serializers.UserCreateSerializer
 
 
-class UserDetailView(generics.RetrieveDestroyAPIView):
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     마이페이지 (+회원탈퇴)
     """
     queryset = User.objects.all()
-    serializer_class = serializers.UserDetailSerializer
+
+    def get_serializer_class(self):
+        if self.request.method in ('GET', 'DELETE'):
+            return serializers.UserDetailSerializer
+        elif self.request.method in ('PUT', 'PATCH'):
+            return serializers.UserUpdateSerializer
 
     @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
-        ],
+        manual_parameters=[openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'), ],
     )
     def get(self, request, *args, **kwargs):
         """
@@ -35,15 +39,51 @@ class UserDetailView(generics.RetrieveDestroyAPIView):
         return self.retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
-        ],
+        manual_parameters=[openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'), ],
     )
     def delete(self, request, *args, **kwargs):
         """
         회원탈퇴; 사용자ID가 {id}인 사용자 삭제
         """
         return self.destroy(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        manual_parameters=[openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'), ],
+    )
+    def patch(self, request, *args, **kwargs):
+        """
+        정보수정; 사용자ID가 {id}인 사용자의 정보 수정
+        """
+        return self.partial_update(request, *args, **kwargs)
+
+
+class UserAccountView(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
+    """
+    마이페이지 계좌 설정
+    """
+    queryset = Account.objects.all()
+    serializer_class = serializers.AccountSerializer
+    lookup_field = 'user'
+
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs.get('user')
+        self.user = get_object_or_404(User, pk=pk)
+        if hasattr(self.user, 'account'):
+            return Response({'detail': '이미 계좌가 존재하는 사용자입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return self.create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        self.user.account = serializer.save()
+        self.user.save()
+
+
+class UserAddressView(generics.UpdateAPIView):
+    """
+    사용자 주소 수정
+    """
+    queryset = User.objects.all()
+    serializer_class = serializers.UserAddressUpdateSerializer
 
 
 class UserSellView(generics.ListAPIView):
@@ -96,9 +136,7 @@ class UserBuyView(generics.ListAPIView):
         return context
 
     @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'),
-        ],
+        manual_parameters=[openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'), ],
     )
     def get(self, request, *args, **kwargs):
         """

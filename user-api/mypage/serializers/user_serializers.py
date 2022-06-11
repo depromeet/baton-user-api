@@ -8,7 +8,6 @@ from django.contrib.gis.geos import Point
 from math import sin, cos, radians, degrees, acos
 
 
-
 class AccountSerializer(serializers.ModelSerializer):
     """
     계좌정보 수정
@@ -63,7 +62,54 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'name', 'nickname', 'phone_number', 'created_on', 'account',
-                  'latitude', 'longitude', 'address', 'detailed_address', ]
+                  'latitude', 'longitude', 'address', 'detailed_address', ]  # TODO image 추가
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    """
+    마이페이지 사용자 정보수정
+    """
+
+    class Meta:
+        model = User
+        fields = ['nickname', 'phone_number', ]  # TODO image 추가
+
+
+# class UserAddressRetrieveSerializer(serializers.ModelSerializer):
+#     """
+#     사용자 주소 조회
+#     """
+#     latitude = serializers.FloatField(source='point.x')
+#     longitude = serializers.FloatField(source='point.y')
+#
+#     class Meta:
+#         model = User
+#         fields = ['latitude', 'longitude', 'address', 'detailed_address', ]
+
+
+class UserAddressUpdateSerializer(serializers.ModelSerializer):
+    """
+    사용자 주소 수정
+    """
+    latitude = serializers.FloatField(write_only=True)
+    longitude = serializers.FloatField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['latitude', 'longitude', 'address', 'detailed_address', ]
+
+    def __init__(self, *args, **kwargs):
+        kwargs['partial'] = False
+        super().__init__(*args, **kwargs)
+
+    def update(self, instance, validated_data):
+        latitude = validated_data.get('latitude', instance.point.x)
+        longitude = validated_data.get('longitude', instance.point.y)
+        instance.point = Point(longitude, latitude, srid=4326)
+        instance.address = validated_data.get('address', instance.address)
+        instance.detailed_address = validated_data.get('detailed_address', instance.detailed_address)
+        instance.save()
+        return instance
 
 
 class TicketListSerializer(serializers.ModelSerializer):
