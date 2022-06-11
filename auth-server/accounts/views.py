@@ -72,7 +72,6 @@ class SocialUserCreateView(generics.CreateAPIView, SocialLoginMixin):
     )
     @transaction.atomic
     def post(self, request, *args, **kwargs):
-        self.provider = self.kwargs.get('provider')
         return self.signup(request, *args, **kwargs)
 
 

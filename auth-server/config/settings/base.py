@@ -143,6 +143,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 KAKAO_REST_API_KEY = None
+PROVIDER_LIST = {'kakao', }
 
 
 LOGGING = {
