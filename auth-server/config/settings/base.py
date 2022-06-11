@@ -194,6 +194,7 @@ LOGGING = {
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 5,
             # 'formatter': 'standard',
+            'encoding': 'utf-8',
         },
     },
     "loggers": {
