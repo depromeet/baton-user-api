@@ -104,7 +104,7 @@ class SocialUserCreateSerializer(serializers.ModelSerializer):
         else:
             user_data['id'] = social_user.id
             user_create_url = getattr(settings, 'USER_API_BASE_URL') + 'user/users'
-            response = requests.post(user_create_url, data=user_data)
+            response = requests.post(user_create_url, json=user_data)
             response.raise_for_status()
 
             return social_user
