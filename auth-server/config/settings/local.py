@@ -6,7 +6,7 @@ import environ
 DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 BASE_URL = 'http://127.0.0.1:8080/'
-UESR_API_BASE_URL = 'http://host.docker.internal:8000/'
+USER_API_BASE_URL = 'http://host.docker.internal:8000/'
 
 
 env = environ.Env()
