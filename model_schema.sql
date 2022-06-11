@@ -143,13 +143,13 @@ INSERT INTO `Tag` VALUES (1, "친절한 선생님", "친절한 선생님"), (2, 
 INSERT INTO `Account` (`id`, `holder`, `bank`, `number`) VALUES (1, '홍길동', 'KB국민은행', '11111111111111');
 
 INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`,`point`,`address`,`detailed_address`,`check_terms_of_service`,`check_privacy_policy`)
-   VALUES (1, '하나', '별명하나', '010-1111-1111', '2022-06-03',ST_GeomFromText('POINT(37.287940866472375 127.05201020528645)', 4326),'경기도 수원시 영통구 도청로','광교중앙역 1번출구',1,1);
+   VALUES (1, '하나', '별명하나', '01011111111', '2022-06-03',ST_GeomFromText('POINT(37.287940866472375 127.05201020528645)', 4326),'경기도 수원시 영통구 도청로','광교중앙역 1번출구',1,1);
 INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`,`point`, `account_id`,`address`,`detailed_address`,`check_terms_of_service`,`check_privacy_policy`)
-    VALUES (2, '둘', '별명둘', '010-2222-2222', '2022-06-04',ST_GeomFromText('POINT(37.287940866472375 127.05201020528645)', 4326), 1,'경기도 수원시 영통구 도청로','광교중앙역 1번출구',1,1);
+    VALUES (2, '둘', '별명둘', '01022222222', '2022-06-04',ST_GeomFromText('POINT(37.287940866472375 127.05201020528645)', 4326), 1,'경기도 수원시 영통구 도청로','광교중앙역 1번출구',1,1);
 INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`,`point`,`address`,`detailed_address`,`check_terms_of_service`,`check_privacy_policy`)
-    VALUES (3, '셋', '별명셋', '010-3333-3333', '2022-03-03',ST_GeomFromText('POINT(37.287940866472375 127.05201020528645)', 4326),'경기도 수원시 영통구 도청로','광교중앙역 1번출구',1,1);
+    VALUES (3, '셋', '별명셋', '01033333333', '2022-03-03',ST_GeomFromText('POINT(37.287940866472375 127.05201020528645)', 4326),'경기도 수원시 영통구 도청로','광교중앙역 1번출구',1,1);
 INSERT INTO `User` (`id`, `name`, `nickname`, `phone_number`, `created_on`,`point`,`address`,`detailed_address`,`check_terms_of_service`,`check_privacy_policy`)
-     VALUES (4, '넷', '별명넷', '010-4444-4444', '2022-04-04',ST_GeomFromText('POINT(37.287940866472375 127.05201020528645)', 4326),'경기도 수원시 영통구 도청로','광교중앙역 1번출구',1,1);
+     VALUES (4, '넷', '별명넷', '01044444444', '2022-04-04',ST_GeomFromText('POINT(37.287940866472375 127.05201020528645)', 4326),'경기도 수원시 영통구 도청로','광교중앙역 1번출구',1,1);
 
 INSERT INTO `Ticket` VALUES (1,1,'장ㅈ',10000,'2022-06-01 04:41:14',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로',NULL,'2023-04-05');
 INSERT INTO `Ticket` VALUES (2,1,'장ㅈ',10000,'2022-06-01 15:38:16',0,3,1,1,NULL,0,1,2,1,1,1,1,1,1,'사세',NULL,2,ST_GeomFromText('POINT(37.2511767810868 127.072240105848)', 4326),'경기도 수원시 영통구 봉영로','https://depromeet11th.s3.ap-northeast-2.amazonaws.com/6team/s_26c56d80-70fc-4068-8f7e-5721252b5296.jpeg','2023-04-05');
