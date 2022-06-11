@@ -7,6 +7,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['*']  # TODO 수정
 
 BASE_URL = 'https://baton.yonghochoi.com/'
+USER_API_BASE_URL = 'https://baton.yonghochoi.com/'
 
 
 env = environ.Env()
