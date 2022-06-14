@@ -86,7 +86,7 @@ class SocialUserDeleteView(generics.DestroyAPIView):
         return self.destroy(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
-        user_delete_url = getattr(settings, 'USER_API_BASE_URL') + f'user/users/{instance.id}'
+        user_delete_url = getattr(settings, 'USER_API_BASE_URL') + f'users/{instance.id}'
         response = requests.delete(user_delete_url)
         response.raise_for_status()
         instance.delete()

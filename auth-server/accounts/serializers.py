@@ -111,7 +111,7 @@ class SocialUserCreateSerializer(serializers.ModelSerializer):
             raise error
         else:
             user_data['id'] = social_user.id
-            user_create_url = getattr(settings, 'USER_API_BASE_URL') + 'user/users'
+            user_create_url = getattr(settings, 'USER_API_BASE_URL') + 'users'
             response = requests.post(user_create_url, json=user_data)
             response.raise_for_status()
 

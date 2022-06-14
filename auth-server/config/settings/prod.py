@@ -6,8 +6,9 @@ import environ
 DEBUG = False
 ALLOWED_HOSTS = ['*']  # TODO 수정
 
-BASE_URL = 'https://baton.yonghochoi.com/'
-USER_API_BASE_URL = 'https://baton.yonghochoi.com/'
+BASE_URL = 'https://baton.yonghochoi.com/'  # kakao oauth function view에서 사용
+USER_API_BASE_URL = 'baton-user-api.baton.svc.cluster.local'
+SEARCH_API_BASE_URL = 'baton-search-api.baton.svc.cluster.local'
 
 
 env = environ.Env()
