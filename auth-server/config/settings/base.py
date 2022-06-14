@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my app
     'accounts.apps.AccountsConfig',
+    'api_gateway.apps.ApiGatewayConfig',
     'mypage.apps.MypageConfig',
     # rest_framework
     'rest_framework',
@@ -51,6 +52,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     # swagger
     'drf_yasg',
+    # proxy-server
+    'djproxy',
 ]
 
 REST_FRAMEWORK = {
