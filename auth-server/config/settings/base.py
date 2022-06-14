@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # swagger
     'drf_yasg',
     # proxy-server
-    'revproxy',
+    'djproxy',
 ]
 
 REST_FRAMEWORK = {
