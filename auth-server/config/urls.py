@@ -37,6 +37,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('health', health, name='health'),
     path('', include('accounts.urls')),
+    path('', include('api_gateway.urls')),
     path('swagger.yaml', schema_view.without_ui(cache_timeout=0), name='schema-yaml'),
     path('swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
