@@ -38,7 +38,7 @@ class BuyDetailView(generics.RetrieveUpdateDestroyAPIView):
         """
         super().delete(request, *args, **kwargs)
         data = {'detail': '삭제가 완료되었습니다.'}
-        return Response(data, status=status.HTTP_200_OK)  # TODO swagger 추가
+        return Response(data, status=status.HTTP_204_NO_CONTENT)  # TODO swagger 추가
 
 
 class BookmarkCreateView(generics.CreateAPIView):
@@ -63,4 +63,4 @@ class BookmarkDetailView(generics.RetrieveDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         super().delete(request, *args, **kwargs)
         data = {'detail': '삭제가 완료되었습니다.'}
-        return Response(data, status=status.HTTP_200_OK)  # TODO swagger 추가
+        return Response(data, status=status.HTTP_204_NO_CONTENT)  # TODO swagger 추가
