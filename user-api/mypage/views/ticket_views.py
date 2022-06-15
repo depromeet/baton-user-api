@@ -2,6 +2,7 @@ from mypage.models import Bookmark, Buy
 from mypage.serializers import ticket_serializers as serializers
 
 from rest_framework import generics, status
+from rest_framework.response import Response
 from django.http import JsonResponse
 
 
@@ -59,7 +60,11 @@ class BookmarkDetailView(generics.RetrieveDestroyAPIView):
     #     response.data = {'detail': '삭제가 완료되었습니다.'}  # TODO swagger 추가
     #     return response
 
-    def delete(self, request, *args, **kwargs):
-        super().delete(request, *args, **kwargs)
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
         data = {'detail': '삭제가 완료되었습니다.'}
-        return JsonResponse(data, status=status.HTTP_204_NO_CONTENT)  # TODO swagger 추가
+        return Response(data=data, status=status.HTTP_204_NO_CONTENT)
+        # super().delete(request, *args, **kwargs)
+        # data = {'detail': '삭제가 완료되었습니다.'}
+        # return JsonResponse(data, status=status.HTTP_204_NO_CONTENT)  # TODO swagger 추가
