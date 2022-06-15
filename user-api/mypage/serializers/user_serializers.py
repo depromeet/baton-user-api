@@ -34,6 +34,11 @@ class UserCreateSerializer(serializers.ModelSerializer):
                   'latitude', 'longitude', 'address', 'detailed_address',
                   'check_terms_of_service', 'check_privacy_policy']
 
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response.update({'latitude': instance.point.x, 'longitude': instance.point.y})
+        return response
+
     def create(self, validated_data):
         # reference: https://stackoverflow.com/questions/37240621/django-rest-framework-updating-nested-object
         # create account
@@ -75,19 +80,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         fields = ['nickname', 'phone_number', ]  # TODO image 추가
 
 
-# class UserAddressRetrieveSerializer(serializers.ModelSerializer):
-#     """
-#     사용자 주소 조회
-#     """
-#     latitude = serializers.FloatField(source='point.x')
-#     longitude = serializers.FloatField(source='point.y')
-#
-#     class Meta:
-#         model = User
-#         fields = ['latitude', 'longitude', 'address', 'detailed_address', ]
-
-
-class UserAddressUpdateSerializer(serializers.ModelSerializer):
+class UserAddressSerializer(serializers.ModelSerializer):
     """
     사용자 주소 수정
     """
@@ -101,6 +94,11 @@ class UserAddressUpdateSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         kwargs['partial'] = False
         super().__init__(*args, **kwargs)
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response.update({'latitude': instance.point.x, 'longitude': instance.point.y})
+        return response
 
     def update(self, instance, validated_data):
         latitude = validated_data.get('latitude', instance.point.x)

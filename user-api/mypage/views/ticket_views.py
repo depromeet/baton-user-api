@@ -34,7 +34,9 @@ class BuyDetailView(generics.RetrieveUpdateDestroyAPIView):
         Cancel Reservation.
         Buy instance 삭제 (ticket state 1,2 -> 0)
         """
-        return super().delete(request, *args, **kwargs)
+        response = super().delete(request, *args, **kwargs)
+        response.data = {'detail': '삭제가 완료되었습니다.'}
+        return response
 
 
 class BookmarkCreateView(generics.CreateAPIView):
@@ -50,3 +52,8 @@ class BookmarkDetailView(generics.RetrieveDestroyAPIView):
     """
     queryset = Bookmark.objects.all()
     serializer_class = serializers.BookmarkSerializer
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        response.data = {'detail': '삭제가 완료되었습니다.'}
+        return response

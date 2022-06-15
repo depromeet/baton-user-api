@@ -83,7 +83,9 @@ class SocialUserDeleteView(generics.DestroyAPIView):
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        response = self.destroy(request, *args, **kwargs)
+        response.data = {'detail': '회원탈퇴가 완료되었습니다.'}
+        return response
 
     def perform_destroy(self, instance):
         user_delete_url = getattr(settings, 'USER_API_BASE_URL') + f'users/{instance.id}'
