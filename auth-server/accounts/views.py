@@ -81,10 +81,14 @@ class SocialUserDeleteView(generics.DestroyAPIView):
     """
     queryset = SocialUser.objects.all()
 
+    @swagger_auto_schema(
+        responses={200: '삭제가 완료되었습니다.'},
+    )
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
         response = self.destroy(request, *args, **kwargs)
         response.data = {'detail': '회원탈퇴가 완료되었습니다.'}  # TODO swagger 추가
+        response.status_code = 200
         return response
 
     def perform_destroy(self, instance):
