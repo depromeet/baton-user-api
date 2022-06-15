@@ -68,7 +68,7 @@ class UserAccountView(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         pk = self.kwargs.get('user')
         self.user = get_object_or_404(User, pk=pk)
-        if hasattr(self.user, 'account'):
+        if self.user.account is not None:
             return Response({'detail': '이미 계좌가 존재하는 사용자입니다.'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return self.create(request, *args, **kwargs)
