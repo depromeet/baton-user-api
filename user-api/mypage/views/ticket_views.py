@@ -64,7 +64,7 @@ class BookmarkDetailView(generics.RetrieveDestroyAPIView):
         instance = self.get_object()
         self.perform_destroy(instance)
         data = {'detail': '삭제가 완료되었습니다.'}
-        return Response(data=data, status=status.HTTP_204_NO_CONTENT)
+        return Response(data=data, status=status.HTTP_200_OK)
         # super().delete(request, *args, **kwargs)
         # data = {'detail': '삭제가 완료되었습니다.'}
         # return JsonResponse(data, status=status.HTTP_204_NO_CONTENT)  # TODO swagger 추가
