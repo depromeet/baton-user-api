@@ -78,12 +78,12 @@ class UserAccountView(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
         self.user.save()
 
 
-class UserAddressView(generics.UpdateAPIView):
+class UserAddressView(generics.RetrieveUpdateAPIView):
     """
     사용자 주소 수정
     """
     queryset = User.objects.all()
-    serializer_class = serializers.UserAddressUpdateSerializer
+    serializer_class = serializers.UserAddressSerializer
 
 
 class UserSellView(generics.ListAPIView):
