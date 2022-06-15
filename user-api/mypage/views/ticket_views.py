@@ -2,8 +2,7 @@ from mypage.models import Bookmark, Buy
 from mypage.serializers import ticket_serializers as serializers
 
 from rest_framework import generics, status
-from rest_framework.response import Response
-from django.http import JsonResponse
+from drf_yasg.utils import swagger_auto_schema
 
 
 class BuyCreateView(generics.CreateAPIView):
@@ -31,14 +30,18 @@ class BuyDetailView(generics.RetrieveUpdateDestroyAPIView):
         instance.ticket.save()
         instance.delete()
 
+    @swagger_auto_schema(
+        responses={200: '삭제가 완료되었습니다.'},
+    )
     def delete(self, request, *args, **kwargs):
         """
         Cancel Reservation.
         Buy instance 삭제 (ticket state 1,2 -> 0)
         """
-        super().delete(request, *args, **kwargs)
-        data = {'detail': '삭제가 완료되었습니다.'}
-        return JsonResponse(data, status=status.HTTP_204_NO_CONTENT)  # TODO swagger 추가
+        response = super().delete(request, *args, **kwargs)
+        response.data = {'detail': '삭제가 완료되었습니다.'}
+        response.status_code = status.HTTP_200_OK
+        return response
 
 
 class BookmarkCreateView(generics.CreateAPIView):
@@ -55,16 +58,11 @@ class BookmarkDetailView(generics.RetrieveDestroyAPIView):
     queryset = Bookmark.objects.all()
     serializer_class = serializers.BookmarkSerializer
 
-    # def delete(self, request, *args, **kwargs):
-    #     response = super().delete(request, *args, **kwargs)
-    #     response.data = {'detail': '삭제가 완료되었습니다.'}  # TODO swagger 추가
-    #     return response
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        data = {'detail': '삭제가 완료되었습니다.'}
-        return Response(data=data, status=status.HTTP_200_OK)
-        # super().delete(request, *args, **kwargs)
-        # data = {'detail': '삭제가 완료되었습니다.'}
-        # return JsonResponse(data, status=status.HTTP_204_NO_CONTENT)  # TODO swagger 추가
+    @swagger_auto_schema(
+        responses={200: '삭제가 완료되었습니다.'},
+    )
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        response.data = {'detail': '삭제가 완료되었습니다.'}
+        response.status_code = status.HTTP_200_OK
+        return response
