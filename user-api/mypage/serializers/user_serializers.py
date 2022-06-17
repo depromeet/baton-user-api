@@ -118,31 +118,43 @@ class TicketListSerializer(serializers.ModelSerializer):
     """
     mainImage = serializers.CharField(source='main_image')
     createAt = serializers.DateTimeField(source='created_at')
+    state = serializers.SerializerMethodField()  # get_state()가 자동으로 연결됨
     isMembership = serializers.BooleanField(source='is_membership')
     remainingNumber = serializers.IntegerField(source='remaining_number')
     expiryDate = serializers.DateField(source='expiry_date')
     latitude = serializers.FloatField(source='point.x')
     longitude = serializers.FloatField(source='point.y')
     distance = serializers.SerializerMethodField()  # get_distance()가 자동으로 연결됨
+    bookmarkId = serializers.SerializerMethodField()
 
     class Meta:
         model = Ticket
         fields = ['id', 'location', 'address', 'price', 'mainImage', 'createAt', 'state', 'tags', 'images',
-                  'isMembership', 'remainingNumber', 'expiryDate', 'latitude', 'longitude', 'distance', ]
+                  'isMembership', 'remainingDay', 'remainingNumber', 'expiryDate', 'latitude', 'longitude', 'distance',
+                  'type', 'bookmarkId']
         extra_kwargs = {
             'id': {'help_text': 'Ticket ID'},
         }
 
-    def get_distance(self, obj):
-        user_point = self.context['user_point']
+    def get_state(self, obj: Ticket):
+        translator = {0: 'SALE', 1: 'RESERVED', 2: 'DONE'}
+        return translator[obj.state]
 
-        lat1, lon1 = radians(user_point.x), radians(user_point.y)
+    def get_distance(self, obj: Ticket):
+        user = self.context['user']
+
+        lat1, lon1 = radians(user.point.x), radians(user.point.y)
         lat2, lon2 = radians(obj.point.x), radians(obj.point.y)
         long_diff = lon1 - lon2
 
         distance_radian = sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long_diff)
         distance_meter = degrees(acos(distance_radian)) * 60 * 1.1515 * 1609.344
         return distance_meter
+
+    def get_bookmarkId(self, obj: Ticket):
+        user = self.context['user']
+        bookmark = Bookmark.objects.get(ticket=obj, user=user)
+        return bookmark.id
 
 
 class UserBuySerializer(serializers.ModelSerializer):
