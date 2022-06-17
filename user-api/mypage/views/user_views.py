@@ -117,7 +117,7 @@ class UserSellView(generics.ListAPIView):
     )
     def get(self, request, *args, **kwargs):
         """
-        판매내역; 사용자ID가 {id}인 사용자가 구매한 양도권 목록
+        판매내역; 사용자ID가 {id}인 사용자가 판매한 양도권 목록
         """
         return self.list(request, *args, **kwargs)
 
@@ -144,7 +144,7 @@ class UserBuyView(generics.ListAPIView):
     )
     def get(self, request, *args, **kwargs):
         """
-        구매내역; 사용자ID가 {id}인 사용자가 판매한 양도권 목록
+        구매내역; 사용자ID가 {id}인 사용자가 구매한 양도권 목록
         """
         return self.list(request, *args, **kwargs)
 
