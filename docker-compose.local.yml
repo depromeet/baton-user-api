@@ -6,7 +6,7 @@ services:
     build:
       context: ./auth-server
       dockerfile: Dockerfile.local
-    container_name: baton-auth-server
+    container_name: auth-server
     command: python manage.py runserver 0.0.0.0:8080
     ports:
       - "8080:8080"
@@ -19,7 +19,7 @@ services:
     build:
       context: ./user-api
       dockerfile: Dockerfile.local
-    container_name: baton-user-api
+    container_name: user-api
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
