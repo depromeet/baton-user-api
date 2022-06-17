@@ -166,8 +166,12 @@ class TicketListSerializer(serializers.ModelSerializer):
 
     def get_bookmarkId(self, obj: Ticket):
         user = self.context['user']
-        bookmark = Bookmark.objects.get(ticket=obj, user=user)
-        return bookmark.id
+        try:
+            bookmark = Bookmark.objects.get(ticket=obj, user=user)
+        except Bookmark.DoesNotExist:
+            return None
+        else:
+            return bookmark.id
 
 
 class UserBuySerializer(serializers.ModelSerializer):
