@@ -8,6 +8,7 @@
 from django.conf import settings
 # from django.db import models
 from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
 
 TEST = False
 
@@ -100,6 +101,10 @@ class Ticket(models.Model):
         managed = TEST
         db_table = 'Ticket'
         ordering = ['-created_at']
+
+    def save(self, *args, **kwargs):
+        self.location = Point(self.point.x, self.point.y, srid=4326)
+        super().save()
 
 
 class TicketImage(models.Model):
