@@ -1,7 +1,7 @@
 from accounts.models import SocialUser
 from accounts import serializers
 from accounts.mixins import SocialLoginMixin, LogoutMixin
-from accounts.serializers import JWTSerializer
+from accounts.jwt_serializers import TokenObtainPairSerializer
 
 from rest_framework import generics
 from drf_yasg.utils import swagger_auto_schema
@@ -50,7 +50,7 @@ class SocialLoginView(generics.GenericAPIView, SocialLoginMixin):
     provider = None
 
     @swagger_auto_schema(
-        responses={200: JWTSerializer}
+        responses={200: TokenObtainPairSerializer}
     )
     def post(self, request, *args, **kwargs):  # TODO RAW data로 입력하면 GET으로 인식함
         return self.login(request, *args, **kwargs)
@@ -68,7 +68,7 @@ class SocialUserCreateView(generics.CreateAPIView, SocialLoginMixin):
     serializer_class = serializers.SocialUserCreateSerializer
 
     @swagger_auto_schema(
-        responses={200: JWTSerializer}
+        responses={201: TokenObtainPairSerializer}
     )
     @transaction.atomic
     def post(self, request, *args, **kwargs):
