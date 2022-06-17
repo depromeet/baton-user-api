@@ -89,6 +89,8 @@ class Ticket(models.Model):
     address = models.CharField(max_length=255)
     main_image = models.CharField(max_length=255, blank=True, null=True)
     expiry_date = models.DateField(blank=True, null=True)
+    bookmark_count = models.IntegerField()
+    view_count = models.IntegerField()
 
     # buyer = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, related_name='buy_tickets')
     bookmark_users = models.ManyToManyField('User', through='Bookmark', related_name='bookmark_tickets')

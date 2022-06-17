@@ -50,6 +50,11 @@ class BookmarkCreateView(generics.CreateAPIView):
     """
     serializer_class = serializers.BookmarkSerializer
 
+    def perform_create(self, serializer):
+        bookmark = serializer.save()
+        bookmark.ticket.bookmark_count += 1
+        bookmark.ticket.save()
+
 
 class BookmarkDetailView(generics.RetrieveDestroyAPIView):
     """
@@ -66,3 +71,8 @@ class BookmarkDetailView(generics.RetrieveDestroyAPIView):
         response.data = {'detail': '삭제가 완료되었습니다.'}
         response.status_code = status.HTTP_200_OK
         return response
+
+    def perform_destroy(self, instance):
+        instance.ticket.bookmark_count -= 1
+        instance.ticket.save()
+        instance.delete()
