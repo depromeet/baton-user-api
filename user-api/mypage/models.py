@@ -103,7 +103,7 @@ class Ticket(models.Model):
         ordering = ['-created_at']
 
     def save(self, *args, **kwargs):
-        self.location = Point(self.point.x, self.point.y, srid=4326)
+        self.point = Point(self.point.x, self.point.y, srid=4326)
         super().save()
 
 
