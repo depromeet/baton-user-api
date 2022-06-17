@@ -6,6 +6,7 @@ from rest_framework import serializers
 from django.contrib.gis.geos import Point
 from django.db import transaction
 
+from datetime import datetime
 from math import sin, cos, radians, degrees, acos
 
 
@@ -120,11 +121,13 @@ class TicketListSerializer(serializers.ModelSerializer):
     createAt = serializers.DateTimeField(source='created_at')
     state = serializers.SerializerMethodField()  # get_state()가 자동으로 연결됨
     isMembership = serializers.BooleanField(source='is_membership')
+    remainingDay = serializers.SerializerMethodField()  # get_remainingDay()가 자동으로 연결됨
     remainingNumber = serializers.IntegerField(source='remaining_number')
     expiryDate = serializers.DateField(source='expiry_date')
     latitude = serializers.FloatField(source='point.x')
     longitude = serializers.FloatField(source='point.y')
     distance = serializers.SerializerMethodField()  # get_distance()가 자동으로 연결됨
+    type = serializers.SerializerMethodField()
     bookmarkId = serializers.SerializerMethodField()
 
     class Meta:
@@ -140,6 +143,9 @@ class TicketListSerializer(serializers.ModelSerializer):
         translator = {0: 'SALE', 1: 'RESERVED', 2: 'DONE'}
         return translator[obj.state]
 
+    def get_remainingDay(self, obj: Ticket):
+        return (obj.expiry_date - datetime.now().date()).days
+
     def get_distance(self, obj: Ticket):
         user = self.context['user']
 
@@ -150,6 +156,10 @@ class TicketListSerializer(serializers.ModelSerializer):
         distance_radian = sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long_diff)
         distance_meter = degrees(acos(distance_radian)) * 60 * 1.1515 * 1609.344
         return distance_meter
+
+    def get_type(self, obj: Ticket):
+        translator = {0: 'HEALTH', 1: 'PT', 2: 'PILATES_YOGA', 3: 'ETC'}
+        return translator[obj.type]
 
     def get_bookmarkId(self, obj: Ticket):
         user = self.context['user']
