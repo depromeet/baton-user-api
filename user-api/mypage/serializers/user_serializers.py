@@ -144,7 +144,10 @@ class TicketListSerializer(serializers.ModelSerializer):
         return translator[obj.state]
 
     def get_remainingDay(self, obj: Ticket):
-        return (obj.expiry_date - datetime.now().date()).days
+        if obj.expiry_date is None:
+            return None
+        else:
+            return (obj.expiry_date - datetime.now().date()).days
 
     def get_distance(self, obj: Ticket):
         user = self.context['user']
