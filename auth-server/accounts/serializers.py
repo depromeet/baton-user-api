@@ -11,28 +11,6 @@ from django.utils.translation import gettext as _
 import requests
 
 
-class JWTUserSerializer(serializers.ModelSerializer):
-    """
-    로그인 성공 시 반환하는 사용자 정보
-    """
-
-    class Meta:
-        model = SocialUser
-        fields = ['id']
-        extra_kwargs = {
-            'id': {'help_text': 'User ID'},
-        }
-
-
-class JWTSerializer(serializers.Serializer):
-    """
-    로그인 성공 시 반환하는 JWT 토큰의 내용
-    """
-    access_token = serializers.CharField(help_text='Baton App 인증을 위한 Access Token')
-    refresh_token = serializers.CharField(help_text='Baton App Access Token 갱신을 위한 Refresh Token')
-    user = JWTUserSerializer()
-
-
 class SocialLoginSerializer(serializers.Serializer):
     access_token = serializers.CharField(required=True, help_text='Kakao 서버 인증을 위한 Access Token')
     required_common_fields = ['nickname']

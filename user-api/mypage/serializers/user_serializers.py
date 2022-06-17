@@ -4,7 +4,9 @@ from rest_framework import serializers
 
 # from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
+from django.db import transaction
 
+from datetime import datetime
 from math import sin, cos, radians, degrees, acos
 
 
@@ -39,6 +41,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         response.update({'latitude': instance.point.x, 'longitude': instance.point.y})
         return response
 
+    @transaction.atomic
     def create(self, validated_data):
         # reference: https://stackoverflow.com/questions/37240621/django-rest-framework-updating-nested-object
         # create account
@@ -116,31 +119,52 @@ class TicketListSerializer(serializers.ModelSerializer):
     """
     mainImage = serializers.CharField(source='main_image')
     createAt = serializers.DateTimeField(source='created_at')
+    state = serializers.SerializerMethodField()  # get_state()가 자동으로 연결됨
     isMembership = serializers.BooleanField(source='is_membership')
+    remainingDay = serializers.SerializerMethodField()  # get_remainingDay()가 자동으로 연결됨
     remainingNumber = serializers.IntegerField(source='remaining_number')
     expiryDate = serializers.DateField(source='expiry_date')
     latitude = serializers.FloatField(source='point.x')
     longitude = serializers.FloatField(source='point.y')
     distance = serializers.SerializerMethodField()  # get_distance()가 자동으로 연결됨
+    type = serializers.SerializerMethodField()
+    bookmarkId = serializers.SerializerMethodField()
 
     class Meta:
         model = Ticket
         fields = ['id', 'location', 'address', 'price', 'mainImage', 'createAt', 'state', 'tags', 'images',
-                  'isMembership', 'remainingNumber', 'expiryDate', 'latitude', 'longitude', 'distance', ]
+                  'isMembership', 'remainingDay', 'remainingNumber', 'expiryDate', 'latitude', 'longitude', 'distance',
+                  'type', 'bookmarkId']
         extra_kwargs = {
             'id': {'help_text': 'Ticket ID'},
         }
 
-    def get_distance(self, obj):
-        user_point = self.context['user_point']
+    def get_state(self, obj: Ticket):
+        translator = {0: 'SALE', 1: 'RESERVED', 2: 'DONE'}
+        return translator[obj.state]
 
-        lat1, lon1 = radians(user_point.x), radians(user_point.y)
+    def get_remainingDay(self, obj: Ticket):
+        return (obj.expiry_date - datetime.now().date()).days
+
+    def get_distance(self, obj: Ticket):
+        user = self.context['user']
+
+        lat1, lon1 = radians(user.point.x), radians(user.point.y)
         lat2, lon2 = radians(obj.point.x), radians(obj.point.y)
         long_diff = lon1 - lon2
 
         distance_radian = sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long_diff)
         distance_meter = degrees(acos(distance_radian)) * 60 * 1.1515 * 1609.344
         return distance_meter
+
+    def get_type(self, obj: Ticket):
+        translator = {0: 'HEALTH', 1: 'PT', 2: 'PILATES_YOGA', 3: 'ETC'}
+        return translator[obj.type]
+
+    def get_bookmarkId(self, obj: Ticket):
+        user = self.context['user']
+        bookmark = Bookmark.objects.get(ticket=obj, user=user)
+        return bookmark.id
 
 
 class UserBuySerializer(serializers.ModelSerializer):

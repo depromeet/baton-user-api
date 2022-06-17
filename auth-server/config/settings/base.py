@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # import sys
 
@@ -147,6 +148,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 KAKAO_REST_API_KEY = None
 PROVIDER_LIST = {'kakao', }
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'TOKEN_VERIFY_SERIALIZER': 'accounts.jwt_serializers.TokenVerifySerializer',
+    'TOKEN_REFRESH_SERIALIZER': 'accounts.jwt_serializers.TokenRefreshSerializer',
+    'ROTATE_REFRESH_TOKENS': False,
+}
 
 
 LOGGING = {

@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from django.db import transaction
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 
@@ -73,6 +74,7 @@ class UserAccountView(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
         else:
             return self.create(request, *args, **kwargs)
 
+    @transaction.atomic
     def perform_create(self, serializer):
         self.user.account = serializer.save()
         self.user.save()
@@ -102,7 +104,7 @@ class UserSellView(generics.ListAPIView):
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context['user_point'] = self.user.point
+        context['user'] = self.user
         return context
 
     @swagger_auto_schema(
@@ -133,7 +135,7 @@ class UserBuyView(generics.ListAPIView):
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context['user_point'] = self.user.point
+        context['user'] = self.user
         return context
 
     @swagger_auto_schema(
@@ -168,7 +170,7 @@ class UserBookmarkView(generics.ListAPIView):
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context['user_point'] = self.user.point
+        context['user'] = self.user
         return context
 
     @swagger_auto_schema(
