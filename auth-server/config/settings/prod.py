@@ -7,10 +7,10 @@ DEBUG = False
 ALLOWED_HOSTS = ['*']  # TODO 수정
 
 BASE_URL = 'https://baton.yonghochoi.com/'  # kakao oauth function view에서 사용
-# USER_API_BASE_URL = 'https://baton.yonghochoi.com/user/'  # TODO kubernetes service domain name으로 대체
-# SEARCH_API_BASE_URL = 'https://baton.yonghochoi.com/search/'
-USER_API_BASE_URL = 'baton-user-api.baton.svc.cluster.local:8000/user/'
-SEARCH_API_BASE_URL = 'baton-search-api.baton.svc.cluster.local:8080/search/'
+USER_API_BASE_URL = 'https://baton.yonghochoi.com/user/'  # TODO kubernetes service domain name으로 대체
+SEARCH_API_BASE_URL = 'https://baton.yonghochoi.com/search/'
+# USER_API_BASE_URL = 'baton-user-api.baton.svc.cluster.local:8000/user/'
+# SEARCH_API_BASE_URL = 'baton-search-api.baton.svc.cluster.local:8080/search/'
 
 
 env = environ.Env()
