@@ -1,7 +1,7 @@
 from mypage.models import User, Account
 from mypage.serializers import user_serializers as serializers
 
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -16,6 +16,7 @@ class UserCreateView(generics.CreateAPIView):
     사용자 생성 (회원가입)
     """
     serializer_class = serializers.UserCreateSerializer
+    permissions_class = [permissions.AllowAny]
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):

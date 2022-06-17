@@ -104,7 +104,7 @@ class Ticket(models.Model):
 
     def save(self, *args, **kwargs):
         self.point = Point(self.point.x, self.point.y, srid=4326)
-        super().save()
+        super().save(*args, **kwargs)
 
 
 class TicketImage(models.Model):
