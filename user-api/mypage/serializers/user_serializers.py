@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 # from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
+from django.db import transaction
 
 from math import sin, cos, radians, degrees, acos
 
@@ -39,6 +40,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         response.update({'latitude': instance.point.x, 'longitude': instance.point.y})
         return response
 
+    @transaction.atomic
     def create(self, validated_data):
         # reference: https://stackoverflow.com/questions/37240621/django-rest-framework-updating-nested-object
         # create account
