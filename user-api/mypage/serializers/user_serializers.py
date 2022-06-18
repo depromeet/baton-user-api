@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 # from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
-from django.db import transaction
+from django.db import connection, transaction
 
 from datetime import datetime
 from math import sin, cos, radians, degrees, acos
@@ -56,6 +56,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
         # create user
         user = User.objects.create(**validated_data)
+        # with connection.cursor() as cursor:
+        #     cursor.execute(f"UPDATE User SET point=ST_GeomFromText('POINT {longitude} {latitude})', 4326) WHERE id=user.id")
+        #     cursor.fetchone()
         return user
 
 
@@ -110,6 +113,9 @@ class UserAddressSerializer(serializers.ModelSerializer):
         instance.address = validated_data.get('address', instance.address)
         instance.detailed_address = validated_data.get('detailed_address', instance.detailed_address)
         instance.save()
+        # with connection.cursor() as cursor:
+        #     cursor.execute(f"UPDATE User SET point=ST_GeomFromText('POINT {longitude} {latitude})', 4326) WHERE id=user.id")
+        #     cursor.fetchone()
         return instance
 
 
@@ -153,7 +159,7 @@ class TicketListSerializer(serializers.ModelSerializer):
         user = self.context['user']
 
         lat1, lon1 = radians(user.point.x), radians(user.point.y)
-        lat2, lon2 = radians(obj.point.x), radians(obj.point.y)
+        lat2, lon2 = radians(obj.point.y), radians(obj.point.x)
         long_diff = lon1 - lon2
 
         distance_radian = sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(long_diff)
