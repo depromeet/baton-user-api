@@ -6,9 +6,15 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.conf import settings
-# from django.db import models
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import Point
+
+
+import logging
+
+l = logging.getLogger('django.db.backends')
+l.setLevel(logging.DEBUG)
+l.addHandler(logging.StreamHandler())
+
 
 TEST = False
 
@@ -101,10 +107,6 @@ class Ticket(models.Model):
         managed = TEST
         db_table = 'Ticket'
         ordering = ['-created_at']
-
-    def save(self, *args, **kwargs):
-        self.point = Point(self.point.x, self.point.y, srid=4326)
-        super().save(*args, **kwargs)
 
 
 class TicketImage(models.Model):

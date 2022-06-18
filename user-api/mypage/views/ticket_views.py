@@ -4,7 +4,7 @@ from mypage.serializers import ticket_serializers as serializers
 from rest_framework import generics, status
 from drf_yasg.utils import swagger_auto_schema
 
-from django.db import transaction
+from django.db import connection, transaction
 
 
 class BuyCreateView(generics.CreateAPIView):
@@ -14,11 +14,11 @@ class BuyCreateView(generics.CreateAPIView):
     """
     serializer_class = serializers.BuyCreateSerializer
 
-    @transaction.atomic
     def perform_create(self, serializer):
         buy = serializer.save()
-        buy.ticket.state = 1
-        buy.ticket.save()
+        with connection.cursor() as cursor:
+            cursor.execute(f"UPDATE Ticket SET state=1 WHERE id={buy.ticket_id}")
+            cursor.fetchone()
 
 
 class BuyDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -54,11 +54,11 @@ class BookmarkCreateView(generics.CreateAPIView):
     """
     serializer_class = serializers.BookmarkSerializer
 
-    @transaction.atomic
     def perform_create(self, serializer):
         bookmark = serializer.save()
-        bookmark.ticket.bookmark_count += 1
-        bookmark.ticket.save()
+        with connection.cursor() as cursor:
+            cursor.execute(f"UPDATE Ticket SET bookmark_count={bookmark.ticket.bookmark_count+1} WHERE id={bookmark.ticket_id}")
+            cursor.fetchone()
 
 
 class BookmarkDetailView(generics.RetrieveDestroyAPIView):
