@@ -16,7 +16,7 @@ class UserCreateView(generics.CreateAPIView):
     사용자 생성 (회원가입)
     """
     serializer_class = serializers.UserCreateSerializer
-    permissions_class = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
