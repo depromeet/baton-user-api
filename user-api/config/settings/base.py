@@ -71,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     # 'django.contrib.auth.middleware.RemoteUserMiddleware',
     'config.middleware.RemoteUserMiddleware',
@@ -186,12 +186,12 @@ LOGGING = {
     },
     "handlers": {
         "console": {
-            "level": "INFO",
+            "level": "DEBUG",
             "filters": ["require_debug_true"],
             "class": "logging.StreamHandler",
         },
         "console_prod": {
-            "level": "INFO",
+            "level": "DEBUG",
             "filters": ["require_debug_false"],
             "class": "logging.StreamHandler",
         },
@@ -225,5 +225,9 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console', 'console_prod'],
+        }
     },
 }
