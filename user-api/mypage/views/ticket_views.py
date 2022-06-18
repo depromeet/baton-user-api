@@ -30,8 +30,9 @@ class BuyDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     @transaction.atomic
     def perform_destroy(self, instance):
-        instance.ticket.state = 0
-        instance.ticket.save()
+        with connection.cursor() as cursor:
+            cursor.execute(f"UPDATE Ticket SET state=0 WHERE id={instance.ticket_id}")
+            cursor.fetchone()
         instance.delete()
 
     @swagger_auto_schema(
@@ -79,6 +80,7 @@ class BookmarkDetailView(generics.RetrieveDestroyAPIView):
 
     @transaction.atomic
     def perform_destroy(self, instance):
-        instance.ticket.bookmark_count -= 1
-        instance.ticket.save()
+        with connection.cursor() as cursor:
+            cursor.execute(f"UPDATE Ticket SET bookmark_count={instance.ticket.bookmark_count-1} WHERE id={instance.ticket_id}")
+            cursor.fetchone()
         instance.delete()
