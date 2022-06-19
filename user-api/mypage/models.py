@@ -27,7 +27,7 @@ class User(models.Model):
     nickname = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
     created_on = models.DateField(auto_now_add=True)
-    account = models.OneToOneField('Account', blank=True, null=True, on_delete=models.CASCADE)  # TODO has_account 추가?
+    account = models.OneToOneField('Account', blank=True, null=True, on_delete=models.CASCADE)
     point = models.PointField(srid=4326)
     address = models.CharField(max_length=255)
     detailed_address = models.CharField(max_length=255, blank=True)
@@ -50,8 +50,8 @@ class Account(models.Model):
 
 
 class Bookmark(models.Model):
-    user = models.ForeignKey('User', models.DO_NOTHING, related_name='bookmarks')
-    ticket = models.ForeignKey('Ticket', models.DO_NOTHING, related_name='bookmarks')
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='bookmarks')
+    ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE, related_name='bookmarks')
 
     class Meta:
         managed = TEST
@@ -60,8 +60,8 @@ class Bookmark(models.Model):
 
 
 class Buy(models.Model):
-    user = models.ForeignKey('User', models.DO_NOTHING, related_name='buys')
-    ticket = models.OneToOneField('Ticket', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='buys')
+    ticket = models.OneToOneField('Ticket', on_delete=models.CASCADE)
     date = models.DateTimeField(blank=True, null=True, help_text='구매일시')
 
     class Meta:
@@ -71,7 +71,7 @@ class Buy(models.Model):
 
 
 class Ticket(models.Model):
-    seller = models.ForeignKey('User', models.DO_NOTHING, related_name='sell_tickets')
+    seller = models.ForeignKey('User', on_delete=models.CASCADE, related_name='sell_tickets')
     location = models.CharField(max_length=255)
     price = models.IntegerField()
     created_at = models.DateTimeField()
@@ -110,7 +110,7 @@ class Ticket(models.Model):
 
 
 class TicketImage(models.Model):
-    ticket = models.ForeignKey(Ticket, models.DO_NOTHING, related_name='images')
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name='images')
     url = models.CharField(max_length=255)
     is_main = models.BooleanField()
     thumbnail_url = models.CharField(max_length=255)
@@ -130,8 +130,8 @@ class Tag(models.Model):
 
 
 class TicketTag(models.Model):
-    ticket = models.ForeignKey('Ticket', models.DO_NOTHING)
-    tag = models.ForeignKey('Tag', models.DO_NOTHING)
+    ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE)
+    tag = models.ForeignKey('Tag', on_delete=models.CASCADE)
 
     class Meta:
         managed = TEST
