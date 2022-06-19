@@ -125,6 +125,7 @@ class TicketListSerializer(serializers.ModelSerializer):
     """
     mainImage = serializers.CharField(source='main_image')
     createAt = serializers.DateTimeField(source='created_at')
+    tags = serializers.SlugRelatedField(many=True, read_only=True, slug_field='subject')
     state = serializers.SerializerMethodField()  # get_state()가 자동으로 연결됨
     isMembership = serializers.BooleanField(source='is_membership')
     remainingDay = serializers.SerializerMethodField()  # get_remainingDay()가 자동으로 연결됨

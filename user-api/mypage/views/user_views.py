@@ -24,7 +24,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     마이페이지 (+회원탈퇴)
     """
     queryset = User.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]  # TODO Temp
 
     def get_serializer_class(self):
         if self.request.method in ('GET', 'DELETE'):
@@ -102,7 +102,9 @@ class UserSellView(generics.ListAPIView):
         state = self.request.query_params.get('state', '0')
         if state not in {'0', '2'}:
             raise Http404('Ticket state value error.')
-        return self.user.sell_tickets.filter(state=state)
+        elif state == '0':
+            state += '1'
+        return self.user.sell_tickets.filter(state__in=state)
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
