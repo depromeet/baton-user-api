@@ -42,7 +42,7 @@ CREATE TABLE `User` (
     `point` point NOT NULL,
     UNIQUE KEY `account_id` (`account_id`),
 --     FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`),
-    FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`)
+    FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `Ticket` (
@@ -104,21 +104,21 @@ CREATE TABLE `TicketImage` (
   `is_main` boolean NOT NULL
 );
 
-ALTER TABLE `Ticket` ADD FOREIGN KEY (`seller_id`) REFERENCES `User` (`id`);
+ALTER TABLE `Ticket` ADD FOREIGN KEY (`seller_id`) REFERENCES `User` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `Buy` ADD FOREIGN KEY (`user_id`) REFERENCES `User` (`id`);
+ALTER TABLE `Buy` ADD FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `Buy` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`);
+ALTER TABLE `Buy` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `Bookmark` ADD FOREIGN KEY (`user_id`) REFERENCES `User` (`id`);
+ALTER TABLE `Bookmark` ADD FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `Bookmark` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`);
+ALTER TABLE `Bookmark` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `TicketTag` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`);
+ALTER TABLE `TicketTag` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `TicketTag` ADD FOREIGN KEY (`tag_id`) REFERENCES `Tag` (`id`);
+ALTER TABLE `TicketTag` ADD FOREIGN KEY (`tag_id`) REFERENCES `Tag` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `TicketImage` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`);
+ALTER TABLE `TicketImage` ADD FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `Ticket` ADD `address` varchar(255) not null;
 
