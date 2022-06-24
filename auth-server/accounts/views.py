@@ -93,7 +93,8 @@ class SocialUserDeleteView(generics.DestroyAPIView):
     @transaction.atomic
     def perform_destroy(self, instance):
         user_delete_url = getattr(settings, 'USER_API_BASE_URL') + f'users/{instance.id}'
-        response = requests.delete(user_delete_url)
+        headers = {"Remote-User": f"{instance.id}"}
+        response = requests.delete(user_delete_url, headers=headers)
         response.raise_for_status()
         instance.delete()
 

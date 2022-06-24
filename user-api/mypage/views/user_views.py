@@ -24,7 +24,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     마이페이지 (+회원탈퇴)
     """
     queryset = User.objects.all()
-    permission_classes = [permissions.AllowAny]  # TODO Temp
+    # permission_classes = [permissions.AllowAny]  # TODO Temp
 
     def get_serializer_class(self):
         if self.request.method in ('GET', 'DELETE'):
