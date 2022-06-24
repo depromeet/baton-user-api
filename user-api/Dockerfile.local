@@ -4,8 +4,8 @@ ENV PYTHONUNBUFFERED=1
 RUN mkdir /app
 WORKDIR /app
 
+COPY script.sh requirements.txt ./
+RUN chmod +x script.sh && ./script.sh
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
 COPY . .
-RUN chmod +x script.sh
-RUN ./script.sh
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
