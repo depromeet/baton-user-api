@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'mypage.apps.MypageConfig',
     # rest_framework
     'rest_framework',
-    'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt',
     # 'rest_framework_simplejwt.token_blacklist',
     # swagger
     'drf_yasg',
@@ -150,17 +150,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 KAKAO_REST_API_KEY = None
-
-# SWAGGER_SETTINGS = {
-#     'SECURITY_DEFINITIONS': {
-#         'Bearer': {
-#             'type': 'apiKey',
-#             'name': 'Authorization',
-#             'in': 'header'
-#         }
-#     },
-#     'USE_SESSION_AUTH': False,
-# }
 
 
 LOGGING = {
