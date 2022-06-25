@@ -23,3 +23,9 @@ DATABASES = {
         "PORT": env("DATABASES_PORT"),
     }
 }
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+PROFILE_IMAGE_DIR = ''

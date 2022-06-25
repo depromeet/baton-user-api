@@ -10,7 +10,6 @@ Django==4.0.3
 django-environ==0.8.1
 django-request-logging==0.7.5
 djangorestframework==3.13.1
-djangorestframework-simplejwt==5.1.0
 drf-yasg==1.20.0
 idna==3.3
 inflection==0.5.1
@@ -20,6 +19,7 @@ MarkupSafe==2.1.1
 mysqlclient==2.1.0
 oauthlib==3.2.0
 packaging==21.3
+Pillow==9.1.1
 pycparser==2.21
 PyJWT==2.3.0
 pyparsing==3.0.9

@@ -8,12 +8,20 @@
 from django.conf import settings
 from django.contrib.gis.db import models
 
-
 import logging
+import os
+from uuid import uuid4
+
 
 l = logging.getLogger('django.db.backends')
 l.setLevel(logging.DEBUG)
 l.addHandler(logging.StreamHandler())
+
+
+def get_file_path(_instance, filename):
+    uuid_name = uuid4().hex
+    ext = os.path.splitext(filename)[-1]
+    return f'{settings.PROFILE_IMAGE_DIR}{uuid_name}{ext}'
 
 
 TEST = False
@@ -32,7 +40,8 @@ class User(models.Model):
     address = models.CharField(max_length=255)
     detailed_address = models.CharField(max_length=255, blank=True)
     check_terms_of_service = models.BooleanField()
-    check_privacy_policy = models.BooleanField()  # TODO model_schema.sql
+    check_privacy_policy = models.BooleanField()
+    profile_image = models.ImageField(upload_to=get_file_path, max_length=255)
 
     class Meta:
         managed = TEST
