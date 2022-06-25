@@ -170,3 +170,21 @@ INSERT INTO `Bookmark` (`user_id`, `ticket_id`) VALUES (1, 4);
 
 INSERT INTO `Buy` (`user_id`, `ticket_id`) VALUES (3, 1);
 INSERT INTO `Buy` (`user_id`, `ticket_id`, `date`) VALUES (2, 2, '2022-06-28 15:00:00');
+
+CREATE TABLE `ticket_report` (
+    `id` int PRIMARY KEY AUTO_INCREMENT,
+    `ticket_id` int NOT NULL,
+    `reporter_id` int NOT NULL,
+    `contents` varchar(1024) NOT NULL,
+    FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`reporter_id`) REFERENCES `User` (`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `user_report` (
+    `id` int PRIMARY KEY AUTO_INCREMENT,
+    `user_id` int NOT NULL,
+    `reporter_id` int NOT NULL,
+    `contents` varchar(1024) NOT NULL,
+    FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`reporter_id`) REFERENCES `User` (`id`) ON DELETE CASCADE
+);
