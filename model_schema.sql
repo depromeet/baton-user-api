@@ -40,6 +40,7 @@ CREATE TABLE `User` (
     `check_terms_of_service` tinyint(1) NOT NULL,
     `check_privacy_policy` tinyint(1) NOT NULL,
     `point` point NOT NULL,
+    `profile_image` varchar(255),
     UNIQUE KEY `account_id` (`account_id`),
 --     FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`),
     FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`) ON DELETE CASCADE
