@@ -144,7 +144,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-PROFILE_IMAGE_DIR = 'user/profile_image/'
+USER_IMAGE_DIR = 'user/image/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

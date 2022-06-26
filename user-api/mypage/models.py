@@ -21,7 +21,7 @@ l.addHandler(logging.StreamHandler())
 def get_file_path(_instance, filename):
     uuid_name = uuid4().hex
     ext = os.path.splitext(filename)[-1]
-    return f'{settings.PROFILE_IMAGE_DIR}{uuid_name}{ext}'
+    return f'{settings.USER_IMAGE_DIR}{uuid_name}{ext}'
 
 
 TEST = False
@@ -41,7 +41,7 @@ class User(models.Model):
     detailed_address = models.CharField(max_length=255, blank=True)
     check_terms_of_service = models.BooleanField()
     check_privacy_policy = models.BooleanField()
-    profile_image = models.ImageField(upload_to=get_file_path, max_length=255)
+    image = models.ImageField(upload_to=get_file_path, max_length=255)
 
     class Meta:
         managed = TEST

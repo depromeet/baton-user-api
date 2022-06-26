@@ -28,4 +28,4 @@ DATABASES = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-PROFILE_IMAGE_DIR = ''
+USER_IMAGE_DIR = ''
