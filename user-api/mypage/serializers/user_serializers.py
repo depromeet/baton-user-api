@@ -36,7 +36,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
                   'latitude', 'longitude', 'address', 'detailed_address',
                   'check_terms_of_service', 'check_privacy_policy']
 
-    def to_representation(self, instance):
+    def to_representation(self, instance: User):
         response = super().to_representation(instance)
         response.update({'latitude': instance.point.x, 'longitude': instance.point.y})
         return response
@@ -101,7 +101,7 @@ class UserAddressSerializer(serializers.ModelSerializer):
         kwargs['partial'] = False
         super().__init__(*args, **kwargs)
 
-    def to_representation(self, instance):
+    def to_representation(self, instance: User):
         response = super().to_representation(instance)
         response.update({'latitude': instance.point.x, 'longitude': instance.point.y})
         return response
