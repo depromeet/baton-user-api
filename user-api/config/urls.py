@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 # from django.contrib import admin
 from django.urls import path, include
 
@@ -34,12 +36,16 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 
+
 urlpatterns = [
-    path('user/', include([
-        path('health', health, name='health'),
-        path('', include('mypage.urls')),
-        # path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-        path('swagger.yaml', schema_view.without_ui(cache_timeout=0), name='schema-yaml'),
-        path('swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    ]))
+    path('health', health, name='health'),
+    path('', include('mypage.urls')),
+    # path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger.yaml', schema_view.without_ui(cache_timeout=0), name='schema-yaml'),
+    path('swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns = [path('user/', include(urlpatterns))]

@@ -48,8 +48,7 @@ INSTALLED_APPS = [
     'mypage.apps.MypageConfig',
     # rest_framework
     'rest_framework',
-    'rest_framework_simplejwt',
-    # 'rest_framework_simplejwt.token_blacklist',
+    'storages',
     # swagger
     'drf_yasg',
 ]
@@ -144,23 +143,29 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+USER_IMAGE_DIR = 'user/image/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-KAKAO_REST_API_KEY = None
 
-# SWAGGER_SETTINGS = {
-#     'SECURITY_DEFINITIONS': {
-#         'Bearer': {
-#             'type': 'apiKey',
-#             'name': 'Authorization',
-#             'in': 'header'
-#         }
-#     },
-#     'USE_SESSION_AUTH': False,
-# }
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Remote-User': {
+            'type': 'apiKey',
+            'name': 'Remote-User',
+            'in': 'header'
+        },
+        # 'JWT': {
+        #     'type': 'oauth2',
+        #     "flow": 'application',
+        #     "tokenUrl": "http://127.0.0.1:8080/login/kakao",
+        # },
+    },
+    'USE_SESSION_AUTH': False,
+}
 
 
 LOGGING = {
@@ -225,9 +230,9 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console', 'console_prod'],
-        }
+        # 'django.db.backends': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console', 'console_prod'],
+        # }
     },
 }

@@ -36,7 +36,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
                   'latitude', 'longitude', 'address', 'detailed_address',
                   'check_terms_of_service', 'check_privacy_policy']
 
-    def to_representation(self, instance):
+    def to_representation(self, instance: User):
         response = super().to_representation(instance)
         response.update({'latitude': instance.point.x, 'longitude': instance.point.y})
         return response
@@ -101,7 +101,7 @@ class UserAddressSerializer(serializers.ModelSerializer):
         kwargs['partial'] = False
         super().__init__(*args, **kwargs)
 
-    def to_representation(self, instance):
+    def to_representation(self, instance: User):
         response = super().to_representation(instance)
         response.update({'latitude': instance.point.x, 'longitude': instance.point.y})
         return response
@@ -117,6 +117,17 @@ class UserAddressSerializer(serializers.ModelSerializer):
         #     cursor.execute(f"UPDATE User SET point=ST_GeomFromText('POINT {longitude} {latitude})', 4326) WHERE id=user.id")
         #     cursor.fetchone()
         return instance
+
+
+class UserImageSerializer(serializers.ModelSerializer):
+    """
+    이미지 파일 등록/수정/삭제
+    """
+    image = serializers.ImageField(use_url=True, allow_null=True)
+
+    class Meta:
+        model = User
+        fields = ['image']
 
 
 class TicketListSerializer(serializers.ModelSerializer):

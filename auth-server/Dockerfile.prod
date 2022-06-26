@@ -1,13 +1,12 @@
 FROM python:3.9
 ENV PYTHONUNBUFFERED=1
 
-RUN mkdir /app
-RUN mkdir /app/logs
+RUN mkdir /app && mkdir /app/logs
 WORKDIR /app
 
+COPY requirements.txt ./
+RUN pip install --upgrade pip && pip install -r requirements.txt && pip install gunicorn
 COPY . .
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-RUN pip install gunicorn
+RUN python manage.py collectstatic --settings=config.settings.prod --noinput
 
 CMD ["gunicorn", "--bind", "0:8080", "config.wsgi:application"]
