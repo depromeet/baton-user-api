@@ -48,8 +48,7 @@ INSTALLED_APPS = [
     'mypage.apps.MypageConfig',
     # rest_framework
     'rest_framework',
-    # 'rest_framework_simplejwt',
-    # 'rest_framework_simplejwt.token_blacklist',
+    'storages',
     # swagger
     'drf_yasg',
 ]

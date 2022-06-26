@@ -1,16 +1,15 @@
 from .base import *
-
 import environ
 
 
 DEBUG = False
 ALLOWED_HOSTS = ['*']  # TODO 수정
 
-
 env = environ.Env()
 environ.Env.read_env(BASE_DIR / '.env.prod')
 
 
+# Secrets
 SECRET_KEY = env("SECRET_KEY")
 
 DATABASES = {
@@ -24,8 +23,8 @@ DATABASES = {
     }
 }
 
-KAKAO_REST_API_KEY = env('KAKAO_REST_API_KEY')
 
+# Parser and Renderer
 REST_FRAMEWORK.update({
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -35,5 +34,27 @@ REST_FRAMEWORK.update({
     ],
 })
 
+# HTTP header
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+# AWS S3
+AWS_S3_ACCESS_KEY_ID = env('AWS_S3_ACCESS_KEY_ID')
+AWS_S3_SECRET_ACCESS_KEY = env('AWS_S3_SECRET_ACCESS_KEY')
+AWS_REGION = 'ap-northeast-2'
+
+AWS_STORAGE_BUCKET_NAME = 'depromeet11th'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+AWS_DEFAULT_ACL = 'public-read-write'
+AWS_LOCATION = '6team'
+STATIC_LOCATION = AWS_LOCATION + '/static/user-api'
+
+# Storage Backend
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'config.storages.StaticS3Boto3Storage'
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+STATICFILES_DIRS = []  # additional locations the staticfiles app will traverse.
