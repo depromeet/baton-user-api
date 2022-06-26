@@ -8,6 +8,5 @@ COPY script.sh requirements.txt ./
 RUN chmod +x script.sh && ./script.sh
 RUN pip install --upgrade pip && pip install -r requirements.txt && pip install gunicorn
 COPY . .
-RUN python manage.py collectstatic --settings=config.settings.prod --noinput
 
 CMD ["gunicorn", "--bind", "0:8000", "config.wsgi:application"]

@@ -7,6 +7,5 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --upgrade pip && pip install -r requirements.txt && pip install gunicorn
 COPY . .
-RUN python manage.py collectstatic --settings=config.settings.prod --noinput
 
 CMD ["gunicorn", "--bind", "0:8080", "config.wsgi:application"]
