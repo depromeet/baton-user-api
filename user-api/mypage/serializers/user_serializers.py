@@ -119,6 +119,17 @@ class UserAddressSerializer(serializers.ModelSerializer):
         return instance
 
 
+class UserImageSerializer(serializers.ModelSerializer):
+    """
+    이미지 파일 등록/수정/삭제
+    """
+    image = serializers.ImageField(use_url=True, allow_null=True)
+
+    class Meta:
+        model = User
+        fields = ['image']
+
+
 class TicketListSerializer(serializers.ModelSerializer):
     """
     Ticket list 나올 때 한 티켓에 나타나는 정보

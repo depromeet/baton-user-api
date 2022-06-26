@@ -2,6 +2,7 @@ from mypage.models import User, Account
 from mypage.serializers import user_serializers as serializers
 
 from rest_framework import generics, status, permissions
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -88,6 +89,15 @@ class UserAddressView(generics.RetrieveUpdateAPIView):
     """
     queryset = User.objects.all()
     serializer_class = serializers.UserAddressSerializer
+
+
+class UserImageView(generics.RetrieveUpdateAPIView):
+    """
+    프로필 이미지
+    """
+    queryset = User.objects.all()
+    serializer_class = serializers.UserImageSerializer
+    parser_classes = (MultiPartParser, )
 
 
 class UserSellView(generics.ListAPIView):
