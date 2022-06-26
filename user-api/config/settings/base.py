@@ -151,7 +151,22 @@ USER_IMAGE_DIR = 'user/image/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-KAKAO_REST_API_KEY = None
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Remote-User': {
+            'type': 'apiKey',
+            'name': 'Remote-User',
+            'in': 'header'
+        },
+        # 'JWT': {
+        #     'type': 'oauth2',
+        #     "flow": 'application',
+        #     "tokenUrl": "http://127.0.0.1:8080/login/kakao",
+        # },
+    },
+    'USE_SESSION_AUTH': False,
+}
 
 
 LOGGING = {
@@ -216,9 +231,9 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console', 'console_prod'],
-        }
+        # 'django.db.backends': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console', 'console_prod'],
+        # }
     },
 }
