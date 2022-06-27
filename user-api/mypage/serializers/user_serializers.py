@@ -73,7 +73,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'name', 'nickname', 'phone_number', 'created_on', 'account',
-                  'latitude', 'longitude', 'address', 'detailed_address', ]  # TODO image 추가
+                  'latitude', 'longitude', 'address', 'detailed_address', 'image']  # TODO image 추가
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
