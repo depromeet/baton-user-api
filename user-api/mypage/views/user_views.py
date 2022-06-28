@@ -1,7 +1,7 @@
 from mypage.models import User, Account
 from mypage.serializers import user_serializers as serializers
 
-from rest_framework import generics, status, permissions
+from rest_framework import mixins, generics, status, permissions
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
@@ -42,6 +42,10 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
         """
         return self.retrieve(request, *args, **kwargs)
 
+    def perform_destroy(self, instance: User):
+        instance.account.delete()
+        instance.delete()
+
     @swagger_auto_schema(
         manual_parameters=[openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'), ],
     )
@@ -61,7 +65,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
         return self.partial_update(request, *args, **kwargs)
 
 
-class UserAccountView(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
+class UserAccountView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin, mixins.CreateModelMixin):
     """
     마이페이지 계좌 설정
     """
@@ -69,13 +73,13 @@ class UserAccountView(generics.RetrieveUpdateAPIView, generics.CreateAPIView):
     serializer_class = serializers.AccountSerializer
     lookup_field = 'user'
 
-    def post(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         pk = self.kwargs.get('user')
         self.user = get_object_or_404(User, pk=pk)
-        if self.user.account is not None:
-            return Response({'detail': '이미 계좌가 존재하는 사용자입니다.'}, status=status.HTTP_400_BAD_REQUEST)
-        else:
+        if self.user.account is None:
             return self.create(request, *args, **kwargs)
+        else:
+            return self.update(request, *args, **kwargs)
 
     @transaction.atomic
     def perform_create(self, serializer):
