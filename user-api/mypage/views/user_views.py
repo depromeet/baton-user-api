@@ -20,7 +20,7 @@ class UserCreateView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+class UserDetailView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin):
     """
     마이페이지 (+회원탈퇴)
     """
@@ -41,10 +41,6 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
         마이페이지; 사용자ID가 {id}인 사용자의 상세 정보
         """
         return self.retrieve(request, *args, **kwargs)
-
-    def perform_destroy(self, instance: User):
-        instance.account.delete()
-        instance.delete()
 
     @swagger_auto_schema(
         manual_parameters=[openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'), ],
