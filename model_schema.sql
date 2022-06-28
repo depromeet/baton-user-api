@@ -32,7 +32,7 @@ CREATE TABLE `User` (
     `id` int PRIMARY KEY NOT NULL,
     `name` varchar(255) NOT NULL,
     `nickname` varchar(255) NOT NULL,
-    `phone_number` varchar(255)NOT NULL,
+    `phone_number` varchar(255) NOT NULL,
     `created_on` date NOT NULL,
     `account_id` int DEFAULT NULL,
     `address` varchar(255) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `User` (
     `image` varchar(255),
     UNIQUE KEY `account_id` (`account_id`),
 --     FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`),
-    FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`)
+    FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`) ON DELETE SET NULL
 );
 
 CREATE TABLE `Ticket` (
