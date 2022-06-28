@@ -28,7 +28,7 @@ class User(models.Model):
     nickname = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
     created_on = models.DateField(auto_now_add=True)
-    account = models.OneToOneField('Account', blank=True, null=True, on_delete=models.CASCADE)
+    account = models.OneToOneField('Account', blank=True, null=True, on_delete=models.SET_NULL)
     point = models.PointField(srid=4326)
     address = models.CharField(max_length=255)
     detailed_address = models.CharField(max_length=255, blank=True)
