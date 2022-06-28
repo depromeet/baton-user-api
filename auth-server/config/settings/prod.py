@@ -42,6 +42,10 @@ REST_FRAMEWORK.update({
     ],
 })
 
+# Setup support for proxy headers
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # AWS S3
 AWS_S3_ACCESS_KEY_ID = env('AWS_S3_ACCESS_KEY_ID')
