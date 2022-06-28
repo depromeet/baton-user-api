@@ -20,6 +20,7 @@
 -- );
 
 DROP TABLE IF EXISTS `Account`, `User`, `Ticket`, `Tag`, `Buy`, `Bookmark`, `TicketTag`, `TicketImage`, `ticket_report`, `user_report`;
+DELETE FROM `accounts_socialuser` WHERE id > 0;
 
 CREATE TABLE `Account` (
     `id` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
