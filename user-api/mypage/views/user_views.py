@@ -86,6 +86,15 @@ class UserAccountView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin, 
         self.user.account = serializer.save()
         self.user.save()
 
+    @swagger_auto_schema(
+        responses={200: '삭제가 완료되었습니다.'},
+    )
+    def delete(self, request, *args, **kwargs):
+        response = self.destroy(request, *args, **kwargs)
+        response.data = {'detail': '삭제가 완료되었습니다.'}
+        response.status_code = 200
+        return response
+
 
 class UserAddressView(generics.RetrieveUpdateAPIView):
     """
