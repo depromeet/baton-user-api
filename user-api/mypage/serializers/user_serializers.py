@@ -123,7 +123,7 @@ class UserImageSerializer(serializers.ModelSerializer):
     """
     이미지 파일 등록/수정/삭제
     """
-    image = serializers.ImageField(use_url=True, allow_null=True)
+    image = serializers.ImageField(use_url=True, allow_null=False)
 
     class Meta:
         model = User

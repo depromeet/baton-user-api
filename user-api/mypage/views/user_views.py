@@ -2,7 +2,7 @@ from mypage.models import User, Account
 from mypage.serializers import user_serializers as serializers
 
 from rest_framework import mixins, generics, status, permissions
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -110,12 +110,16 @@ class UserImageView(generics.RetrieveUpdateDestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.image = None
-        instance.save()
-        return Response({'detail': '삭제가 완료되었습니다.'}, status=status.HTTP_200_OK)
+        if instance.image:
+            instance.image.delete(save=True)
+            return Response({'detail': '삭제가 완료되었습니다.'}, status=status.HTTP_200_OK)
+        else:
+            raise Http404
 
     @swagger_auto_schema(
-        responses={200: '삭제가 완료되었습니다.'},
+        responses={200: '삭제가 완료되었습니다.',
+                   401: '자격 인증데이터(authentication credentials)가 제공되지 않았습니다.',
+                   404: '찾을 수 없습니다.'},
     )
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
