@@ -43,7 +43,7 @@ CREATE TABLE `User` (
     `image` varchar(255),
     UNIQUE KEY `account_id` (`account_id`),
 --     FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`),
-    FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`) ON DELETE CASCADE
+    FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`)
 );
 
 CREATE TABLE `Ticket` (
