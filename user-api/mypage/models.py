@@ -17,7 +17,7 @@ TEST = False
 def get_file_path(_instance, filename):
     uuid_name = uuid4().hex
     ext = os.path.splitext(filename)[-1]
-    return f'{settings.USER_IMAGE_DIR}{uuid_name}{ext}'
+    return f'image/{uuid_name}{ext}'
 
 
 class User(models.Model):

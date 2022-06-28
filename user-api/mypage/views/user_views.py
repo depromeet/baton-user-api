@@ -91,13 +91,25 @@ class UserAddressView(generics.RetrieveUpdateAPIView):
     serializer_class = serializers.UserAddressSerializer
 
 
-class UserImageView(generics.RetrieveUpdateAPIView):
+class UserImageView(generics.RetrieveUpdateDestroyAPIView):
     """
     프로필 이미지
     """
     queryset = User.objects.all()
     serializer_class = serializers.UserImageSerializer
     parser_classes = (MultiPartParser, )
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.image = None
+        instance.save()
+        return Response({'detail': '삭제가 완료되었습니다.'}, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        responses={200: '삭제가 완료되었습니다.'},
+    )
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class UserSellView(generics.ListAPIView):

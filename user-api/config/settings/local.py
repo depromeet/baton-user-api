@@ -28,4 +28,26 @@ DATABASES = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-USER_IMAGE_DIR = ''
+# MEDIA_LOCATION = ''
+
+# TODO Temp
+# AWS S3
+AWS_S3_ACCESS_KEY_ID = env('AWS_S3_ACCESS_KEY_ID')
+AWS_S3_SECRET_ACCESS_KEY = env('AWS_S3_SECRET_ACCESS_KEY')
+AWS_REGION = 'ap-northeast-2'
+
+AWS_STORAGE_BUCKET_NAME = 'depromeet11th'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+AWS_DEFAULT_ACL = 'public-read-write'
+AWS_LOCATION = '6team'
+STATIC_LOCATION = f'{AWS_LOCATION}/'.lstrip('/') + 'static/user-api'
+MEDIA_LOCATION = f'{AWS_LOCATION}/'.lstrip('/') + 'media/user-api'
+
+# Storage Backend
+DEFAULT_FILE_STORAGE = 'config.storages.MediaS3Boto3Storage'
+STATICFILES_STORAGE = 'config.storages.StaticS3Boto3Storage'
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+STATICFILES_DIRS = []
