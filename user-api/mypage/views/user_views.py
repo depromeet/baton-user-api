@@ -2,7 +2,7 @@ from mypage.models import User, Account
 from mypage.serializers import user_serializers as serializers
 
 from rest_framework import mixins, generics, status, permissions
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -20,7 +20,7 @@ class UserCreateView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+class UserDetailView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin):
     """
     마이페이지 (+회원탈퇴)
     """
@@ -41,10 +41,6 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
         마이페이지; 사용자ID가 {id}인 사용자의 상세 정보
         """
         return self.retrieve(request, *args, **kwargs)
-
-    def perform_destroy(self, instance: User):
-        instance.account.delete()
-        instance.delete()
 
     @swagger_auto_schema(
         manual_parameters=[openapi.Parameter('id', openapi.IN_PATH, type=openapi.TYPE_INTEGER, description='사용자ID'), ],
@@ -104,22 +100,39 @@ class UserAddressView(generics.RetrieveUpdateAPIView):
     serializer_class = serializers.UserAddressSerializer
 
 
-class UserImageView(generics.RetrieveUpdateDestroyAPIView):
+class UserImageView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin):
     """
     프로필 이미지
     """
     queryset = User.objects.all()
-    serializer_class = serializers.UserImageSerializer
-    parser_classes = (MultiPartParser, )
+    parser_classes = (MultiPartParser, JSONParser)
+
+    def get_serializer_class(self):
+        if self.request.headers['Content-Type'] == 'application/json':
+            return serializers.UserImageUrlSerializer
+        else:
+            return serializers.UserImageFileSerializer
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.image = None
-        instance.save()
-        return Response({'detail': '삭제가 완료되었습니다.'}, status=status.HTTP_200_OK)
+        if instance.image:
+            if instance.is_custom_image:
+                instance.image.delete(save=False)
+            else:
+                instance.image = None
+            instance.is_custom_image = False
+            instance.save()
+            return Response({'detail': '삭제가 완료되었습니다.'}, status=status.HTTP_200_OK)
+        else:
+            raise Http404
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
     @swagger_auto_schema(
-        responses={200: '삭제가 완료되었습니다.'},
+        responses={200: '삭제가 완료되었습니다.',
+                   401: '자격 인증데이터(authentication credentials)가 제공되지 않았습니다.',
+                   404: '찾을 수 없습니다.'},
     )
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)

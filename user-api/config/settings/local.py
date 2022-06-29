@@ -46,8 +46,8 @@ MEDIA_LOCATION = f'{AWS_LOCATION}/'.lstrip('/') + 'media/user-api'
 
 # Storage Backend
 DEFAULT_FILE_STORAGE = 'config.storages.MediaS3Boto3Storage'
-STATICFILES_STORAGE = 'config.storages.StaticS3Boto3Storage'
+# STATICFILES_STORAGE = 'config.storages.StaticS3Boto3Storage'
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-STATICFILES_DIRS = []
+# STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+# STATICFILES_DIRS = []

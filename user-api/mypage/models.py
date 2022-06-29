@@ -5,19 +5,27 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from django.conf import settings
+from mypage.files import DynamicStorageImageField
 from django.contrib.gis.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 import os
 from uuid import uuid4
 
 TEST = False
+IMAGE_DIR = 'mypage/img'
 
 
-def get_file_path(_instance, filename):
+def get_file_name(_instance, filename):
     uuid_name = uuid4().hex
     ext = os.path.splitext(filename)[-1]
-    return f'image/{uuid_name}{ext}'
+    return f'{uuid_name}{ext}'
+
+
+def get_file_path(*args, **kwargs):
+    file_name = get_file_name(*args, **kwargs)
+    return f'{IMAGE_DIR}/{file_name}'
 
 
 class User(models.Model):
@@ -34,7 +42,8 @@ class User(models.Model):
     detailed_address = models.CharField(max_length=255, blank=True)
     check_terms_of_service = models.BooleanField()
     check_privacy_policy = models.BooleanField()
-    image = models.ImageField(upload_to=get_file_path, max_length=255, null=True)
+    image = DynamicStorageImageField(upload_to=get_file_path, max_length=255, null=True)
+    is_custom_image = models.BooleanField(default=False)
 
     class Meta:
         managed = TEST
@@ -49,6 +58,14 @@ class Account(models.Model):
     class Meta:
         managed = TEST
         db_table = 'Account'
+
+
+@receiver(post_delete, sender=User)
+def delete_fields(sender, instance: User, **kwargs):
+    if instance.account:
+        instance.account.delete()
+    if instance.image and instance.is_custom_image:
+        instance.image.delete(save=False)
 
 
 class Bookmark(models.Model):
