@@ -1,13 +1,16 @@
 from mypage.models import Ticket, Bookmark, Buy, User, Account
 
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
-# from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.db import connection, transaction
 
+import boto3
 from datetime import datetime
 from math import sin, cos, radians, degrees, acos
+from urllib.parse import urlparse
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -119,15 +122,48 @@ class UserAddressSerializer(serializers.ModelSerializer):
         return instance
 
 
-class UserImageSerializer(serializers.ModelSerializer):
+class UserImageFileSerializer(serializers.ModelSerializer):
     """
-    이미지 파일 등록/수정/삭제
+    프로필 이미지 file 등록/수정/삭제
     """
     image = serializers.ImageField(use_url=True, allow_null=False)
 
     class Meta:
         model = User
         fields = ['image']
+
+    def update(self, instance, validated_data):
+        instance.is_custom_image = True
+        return super().update(instance, validated_data)
+
+
+class UserImageUrlSerializer(serializers.ModelSerializer):
+    """
+    프로필 이미지 url 등록/수정/삭제
+    """
+    image = serializers.URLField(allow_null=False)
+
+    class Meta:
+        model = User
+        fields = ['image']
+
+    def validate_image(self, value):  # TODO 그냥 url에 이미지 있는지만 확인
+        image_name = urlparse(value).path.lstrip('/')
+        s3_client = boto3.client('s3', aws_access_key_id=settings.AWS_S3_ACCESS_KEY_ID,
+                                 aws_secret_access_key=settings.AWS_S3_SECRET_ACCESS_KEY)
+        res = s3_client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME, Prefix=image_name)
+        if 'Contents' not in res:
+            raise ValidationError("File does not exist!")
+        return image_name.removeprefix(settings.STATIC_LOCATION + '/')
+
+    def update(self, instance: User, validated_data):
+        instance.is_custom_image = False
+        return super().update(instance, validated_data)
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['image'] = instance.image.url
+        return response
 
 
 class TicketListSerializer(serializers.ModelSerializer):

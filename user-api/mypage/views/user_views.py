@@ -100,21 +100,34 @@ class UserAddressView(generics.RetrieveUpdateAPIView):
     serializer_class = serializers.UserAddressSerializer
 
 
-class UserImageView(generics.RetrieveUpdateDestroyAPIView):
+class UserImageView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin):
     """
     프로필 이미지
     """
     queryset = User.objects.all()
-    serializer_class = serializers.UserImageSerializer
-    parser_classes = (MultiPartParser, )
+    parser_classes = (MultiPartParser, JSONParser)
+
+    def get_serializer_class(self):
+        if self.request.headers['Content-Type'] == 'application/json':
+            return serializers.UserImageUrlSerializer
+        else:
+            return serializers.UserImageFileSerializer
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if instance.image:
-            instance.image.delete(save=True)
+            if instance.is_custom_image:
+                instance.image.delete(save=False)
+            else:
+                instance.image = None
+            instance.is_custom_image = False
+            instance.save()
             return Response({'detail': '삭제가 완료되었습니다.'}, status=status.HTTP_200_OK)
         else:
             raise Http404
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
     @swagger_auto_schema(
         responses={200: '삭제가 완료되었습니다.',
