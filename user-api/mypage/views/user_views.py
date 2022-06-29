@@ -108,7 +108,7 @@ class UserImageView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin):
     parser_classes = (MultiPartParser, JSONParser)
 
     def get_serializer_class(self):
-        if self.request.headers['Content-Type'] == 'application/json':
+        if self.request.headers.get('Content-Type') == 'application/json':
             return serializers.UserImageUrlSerializer
         else:
             return serializers.UserImageFileSerializer
