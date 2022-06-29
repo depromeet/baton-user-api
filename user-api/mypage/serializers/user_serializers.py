@@ -137,7 +137,7 @@ class UserImageFileSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class UserImageUrlSerializer(serializers.ModelSerializer):
+class UserImageURLSerializer(serializers.ModelSerializer):
     """
     프로필 이미지 url 등록/수정/삭제
     """

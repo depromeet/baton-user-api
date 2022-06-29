@@ -4,6 +4,7 @@ from mypage.serializers import user_serializers as serializers
 from rest_framework import mixins, generics, status, permissions
 from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.response import Response
+from drf_yasg.inspectors.view import SwaggerAutoSchema
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
@@ -100,6 +101,19 @@ class UserAddressView(generics.RetrieveUpdateAPIView):
     serializer_class = serializers.UserAddressSerializer
 
 
+class URLUploadAutoSchema(SwaggerAutoSchema):
+    def get_request_serializer(self):
+        return serializers.UserImageURLSerializer()
+
+    def get_consumes(self):
+        return ['application/json']
+
+
+class FileUploadAutoSchema(SwaggerAutoSchema):
+    def get_consumes(self):
+        return ['multipart/form-data']
+
+
 class UserImageView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin):
     """
     프로필 이미지
@@ -109,7 +123,7 @@ class UserImageView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin):
 
     def get_serializer_class(self):
         if self.request.headers.get('Content-Type') == 'application/json':
-            return serializers.UserImageUrlSerializer
+            return serializers.UserImageURLSerializer
         else:
             return serializers.UserImageFileSerializer
 
@@ -126,7 +140,12 @@ class UserImageView(generics.RetrieveDestroyAPIView, mixins.UpdateModelMixin):
         else:
             raise Http404
 
+    @swagger_auto_schema(auto_schema=URLUploadAutoSchema)
     def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    @swagger_auto_schema(auto_schema=FileUploadAutoSchema)
+    def patch(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
     @swagger_auto_schema(
