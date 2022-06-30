@@ -156,6 +156,21 @@ swagger로 API 명세 제공
 
 ## Technology Stack
 
+<div align='center'>
+
+![OAuth2.0](https://img.shields.io/badge/-OAuth2.0-FFCD00?logo=Kakao&logoColor=black&style=flat)
+![JWT](https://img.shields.io/badge/-JWT-000000?logo=JSON%20Web%20Tokens&logoColor=white&style=flat)<br>
+![Django](https://img.shields.io/badge/-Django-092E20?logo=Django&logoColor=white&style=flat)
+![MySQL](https://img.shields.io/badge/-MySQL-blue?logo=MySQL&logoColor=white&style=flat)<br>
+![Python](https://img.shields.io/badge/-Python-3776AB?logo=Python&logoColor=white&style=flat)
+![Gunicorn](https://img.shields.io/badge/-Gunicorn-499848?logo=Gunicorn&logoColor=white&style=flat)
+![Swagger](https://img.shields.io/badge/-Swagger-a4ff82?logo=Swagger&logoColor=black&style=flat)<br>
+![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=Docker&logoColor=white&style=flat)
+![Github--Actions](https://img.shields.io/badge/-Github--Actions-0006ff?logo=GitHub%20Actions&logoColor=white&style=flat)
+![AWS S3](https://img.shields.io/badge/-AWS%20S3-569A31?logo=Amazon%20S3&logoColor=white&style=flat)
+
+</div>
+
 ### Python packages
 
 #### Common
