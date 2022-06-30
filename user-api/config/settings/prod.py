@@ -4,6 +4,7 @@ import environ
 
 DEBUG = False
 ALLOWED_HOSTS = ['*']  # TODO 수정
+# ALLOWED_HOSTS = ['baton-user-api.baton.svc.cluster.local']
 
 env = environ.Env()
 environ.Env.read_env(BASE_DIR / '.env.prod')
@@ -33,6 +34,8 @@ REST_FRAMEWORK.update({
         'rest_framework.parsers.JSONParser',
     ],
 })
+
+SWAGGER_SETTINGS['SUPPORTED_SUBMIT_METHODS'] = []
 
 # HTTP header
 USE_X_FORWARDED_HOST = True

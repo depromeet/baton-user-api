@@ -159,6 +159,9 @@ SIMPLE_JWT = {
 }
 
 
+SWAGGER_SETTINGS = {}
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
