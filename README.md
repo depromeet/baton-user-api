@@ -161,6 +161,7 @@ swagger로 API 명세 제공
 ![OAuth2.0](https://img.shields.io/badge/-OAuth2.0-FFCD00?logo=Kakao&logoColor=black&style=flat)
 ![JWT](https://img.shields.io/badge/-JWT-000000?logo=JSON%20Web%20Tokens&logoColor=white&style=flat)<br>
 ![Django](https://img.shields.io/badge/-Django-092E20?logo=Django&logoColor=white&style=flat)
+![Django REST framework](https://img.shields.io/badge/-Django%20REST%20framework-a30000?logo=django&logoColor=white&style=flat)
 ![MySQL](https://img.shields.io/badge/-MySQL-blue?logo=MySQL&logoColor=white&style=flat)<br>
 ![Python](https://img.shields.io/badge/-Python-3776AB?logo=Python&logoColor=white&style=flat)
 ![Gunicorn](https://img.shields.io/badge/-Gunicorn-499848?logo=Gunicorn&logoColor=white&style=flat)
