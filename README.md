@@ -187,7 +187,7 @@ swagger로 API 명세 제공
 
 ## See more
 
-* [Baton](https://github.com/depromeet/Baton)(Android)
+* [Baton](https://github.com/depromeet/Baton) (Android)
 * [baton-search-api](https://github.com/depromeet/baton-search-api)
 * [baton-chat-server](https://github.com/depromeet/baton-chat-server)
 * [baton-infra](https://github.com/depromeet/baton-infra)
