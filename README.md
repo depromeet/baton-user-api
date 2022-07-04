@@ -9,7 +9,7 @@
 
 baton-user-api는 django projects로 구성되며 기능은 아래와 같다.
 
-1. auth-server: api-gateway, 인증 API
+1. auth-server: api-gateway, 인증(로그인/회원가입/토큰) API
 2. user-api: 마이페이지 API
 
 ## Table of Contents
@@ -24,10 +24,9 @@ baton-user-api는 django projects로 구성되며 기능은 아래와 같다.
 
 ## Background
 
-### Architecture
+### Architecture and API flow
 
-![API Flowpng](https://user-images.githubusercontent.com/86508420/176701877-78c21e38-c2e5-40d5-a815-fd0a9ddc358a.png)
-![인프라](https://user-images.githubusercontent.com/86508420/176702393-281778aa-46cd-4815-aeb1-72a971b371a5.png)
+![인프라 및 API flow](https://user-images.githubusercontent.com/86508420/177163444-505d7b21-abd2-493a-a9ab-0f41e6c7b414.png)
 
 
 ### Database Schema
