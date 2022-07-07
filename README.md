@@ -166,8 +166,8 @@ swagger로 API 명세 제공
 ![Gunicorn](https://img.shields.io/badge/-Gunicorn-499848?logo=Gunicorn&logoColor=white&style=flat)
 ![Swagger](https://img.shields.io/badge/-Swagger-a4ff82?logo=Swagger&logoColor=black&style=flat)<br>
 ![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=Docker&logoColor=white&style=flat)
-![Github--Actions](https://img.shields.io/badge/-Github--Actions-0006ff?logo=GitHub%20Actions&logoColor=white&style=flat)
-![AWS S3](https://img.shields.io/badge/-AWS%20S3-569A31?logo=Amazon%20S3&logoColor=white&style=flat)
+![GitHub Actions](https://img.shields.io/badge/-GitHub%20Actions-0006ff?logo=GitHub%20Actions&logoColor=white&style=flat)
+![Amazon S3](https://img.shields.io/badge/-Aamzon%20S3-569A31?logo=Amazon%20S3&logoColor=white&style=flat)
 
 </div>
 
