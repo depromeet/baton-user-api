@@ -58,8 +58,8 @@ jobs:
           file: ./auth-server/Dockerfile.prod
           push: true
           tags: ${{ env.ECR_REGISTRY }}/baton-auth-server:${{ env.IMAGE_TAG }}
-          cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-auth-server:buildcache
-          cache-to: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-auth-server:buildcache,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
@@ -71,8 +71,8 @@ jobs:
           file: ./user-api/Dockerfile.prod
           push: true
           tags: ${{ env.ECR_REGISTRY }}/baton-user-api:${{ env.IMAGE_TAG }}
-          cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-user-api:buildcache
-          cache-to: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-user-api:buildcache,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
