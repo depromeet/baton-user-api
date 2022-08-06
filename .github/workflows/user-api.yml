@@ -55,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./auth-server
-          file: Dockerfile.prod
+          file: ./auth-server/Dockerfile.prod
           push: true
           tags: ${{ env.ECR_REGISTRY }}/baton-auth-server:${{ env.IMAGE_TAG }}
           cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-auth-server:buildcache
@@ -68,7 +68,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./user-api
-          file: Dockerfile.prod
+          file: ./user-api/Dockerfile.prod
           push: true
           tags: ${{ env.ECR_REGISTRY }}/baton-user-api:${{ env.IMAGE_TAG }}
           cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-user-api:buildcache
