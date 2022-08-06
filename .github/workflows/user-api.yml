@@ -46,13 +46,10 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Setting .env for docker-compose
-        run: |
-          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> .env
-          echo "IMAGE_TAG=${{ github.sha }}" >> .env
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
+#      - name: Setting .env for docker-compose
+#        run: |
+#          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> .env
+#          echo "IMAGE_TAG=${{ github.sha }}" >> .env
 
       - name: Build and push auth-server
         uses: docker/build-push-action@v3
@@ -60,9 +57,12 @@ jobs:
           context: ./auth-server
           file: Dockerfile.prod
           push: true
-          tags: ${{ env.ECR_REGISTRY }}/auth-server:${{ env.IMAGE_TAG }}
-          cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/auth-server:buildcache
-          cache-to: type=registry,ref=${{ env.ECR_REGISTRY }}/auth-server:buildcache,mode=max
+          tags: $ECR_REGISTRY/baton-auth-server:$IMAGE_TAG
+          cache-from: type=registry,ref=$ECR_REGISTRY/baton-auth-server:buildcache
+          cache-to: type=registry,ref=$ECR_REGISTRY/baton-auth-server:buildcache,mode=max
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
 
       - name: Build and push user-api
         uses: docker/build-push-action@v3
@@ -70,6 +70,9 @@ jobs:
           context: ./user-api
           file: Dockerfile.prod
           push: true
-          tags: ${{ env.ECR_REGISTRY }}/user-api:${{ env.IMAGE_TAG }}
-          cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/user-api:buildcache
-          cache-to: type=registry,ref=${{ env.ECR_REGISTRY }}/user-api:buildcache,mode=max
+          tags: $ECR_REGISTRY/baton-user-api:$IMAGE_TAG
+          cache-from: type=registry,ref=$ECR_REGISTRY/baton-user-api:buildcache
+          cache-to: type=registry,ref=$ECR_REGISTRY/baton-user-api:buildcache,mode=max
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
