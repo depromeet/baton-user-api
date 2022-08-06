@@ -135,6 +135,36 @@ ALTER TABLE `Ticket` add column bookmark_count int not null default 0;
 
 ALTER TABLE `Ticket` add column view_count int not null default 0;
 
+CREATE TABLE `ticket_report` (
+    `id` int PRIMARY KEY AUTO_INCREMENT,
+    `ticket_id` int NOT NULL,
+    `reporter_id` int NOT NULL,
+    `contents` varchar(1024) NOT NULL,
+    FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`reporter_id`) REFERENCES `User` (`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `user_report` (
+    `id` int PRIMARY KEY AUTO_INCREMENT,
+    `user_id` int NOT NULL,
+    `reporter_id` int NOT NULL,
+    `contents` varchar(1024) NOT NULL,
+    FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`reporter_id`) REFERENCES `User` (`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `Inquiry` (
+    `id` int PRIMARY KEY AUTO_INCREMENT,
+    `user_id` int NOT NULL,
+    `ticket_id` int, -- Ticket 삭제 해도 문의는 유지
+    `content` text NOT NULL,
+    `created_at` datetime NOT NULL,
+    UNIQUE KEY (`user_id`, `ticket_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`) ON DELETE SET NULL
+);
+
+
 /*
 DB 테스트 데이터 삽입 SQL 코드입니다. commit 규칙은 아래와 같습니다.
 1. commit message에는 SQL DML(INSERT, UPDATE, DROP) 명령어 + 테이블 이름을 적습니다.
@@ -173,20 +203,3 @@ INSERT INTO `Bookmark` (`user_id`, `ticket_id`) VALUES (1, 4);
 INSERT INTO `Buy` (`user_id`, `ticket_id`) VALUES (3, 1);
 INSERT INTO `Buy` (`user_id`, `ticket_id`, `date`) VALUES (2, 2, '2022-06-28 15:00:00');
 
-CREATE TABLE `ticket_report` (
-    `id` int PRIMARY KEY AUTO_INCREMENT,
-    `ticket_id` int NOT NULL,
-    `reporter_id` int NOT NULL,
-    `contents` varchar(1024) NOT NULL,
-    FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`reporter_id`) REFERENCES `User` (`id`) ON DELETE CASCADE
-);
-
-CREATE TABLE `user_report` (
-    `id` int PRIMARY KEY AUTO_INCREMENT,
-    `user_id` int NOT NULL,
-    `reporter_id` int NOT NULL,
-    `contents` varchar(1024) NOT NULL,
-    FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`reporter_id`) REFERENCES `User` (`id`) ON DELETE CASCADE
-);
