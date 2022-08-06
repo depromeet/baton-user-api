@@ -57,19 +57,19 @@ jobs:
       - name: Build and push auth-server
         uses: docker/build-push-action@v3
         with:
-          context: ./
-          file: ./user-api/Dockerfile.prod
+          context: ./auth-server
+          file: Dockerfile.prod
           push: true
-          tags: ${{ env.ECR_REGISTRY }}/baton-auth-server:${{ env.IMAGE_TAG }}
-          cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-auth-server:buildcache
-          cache-to: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-auth-server:buildcache,mode=max
+          tags: ${{ env.ECR_REGISTRY }}/auth-server:${{ env.IMAGE_TAG }}
+          cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/auth-server:buildcache
+          cache-to: type=registry,ref=${{ env.ECR_REGISTRY }}/auth-server:buildcache,mode=max
 
       - name: Build and push user-api
         uses: docker/build-push-action@v3
         with:
-          context: ./
-          file: ./user-api/Dockerfile.prod
+          context: ./user-api
+          file: Dockerfile.prod
           push: true
-          tags: ${{ env.ECR_REGISTRY }}/baton-user-api:${{ env.IMAGE_TAG }}
-          cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-user-api:buildcache
-          cache-to: type=registry,ref=${{ env.ECR_REGISTRY }}/baton-user-api:buildcache,mode=max
+          tags: ${{ env.ECR_REGISTRY }}/user-api:${{ env.IMAGE_TAG }}
+          cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/user-api:buildcache
+          cache-to: type=registry,ref=${{ env.ECR_REGISTRY }}/user-api:buildcache,mode=max
