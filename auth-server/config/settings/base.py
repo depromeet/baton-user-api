@@ -153,7 +153,6 @@ PROVIDER_LIST = {'kakao', }
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
-    'TOKEN_VERIFY_SERIALIZER': 'accounts.jwt_serializers.TokenVerifySerializer',
     'TOKEN_REFRESH_SERIALIZER': 'accounts.jwt_serializers.TokenRefreshSerializer',
     'ROTATE_REFRESH_TOKENS': False,
 }
