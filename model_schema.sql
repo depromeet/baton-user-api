@@ -159,6 +159,7 @@ CREATE TABLE `Inquiry` (
     `ticket_id` int, -- Ticket 삭제 해도 문의는 유지
     `content` text NOT NULL,
     `created_at` datetime NOT NULL,
+    `is_read` boolean NOT NULL default 0,
     UNIQUE KEY (`user_id`, `ticket_id`),
     FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`ticket_id`) REFERENCES `Ticket` (`id`) ON DELETE SET NULL
