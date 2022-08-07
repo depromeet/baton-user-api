@@ -76,7 +76,8 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'name', 'nickname', 'phone_number', 'created_on', 'account',
-                  'latitude', 'longitude', 'address', 'detailed_address', 'image']  # TODO image 추가
+                  'latitude', 'longitude', 'address', 'detailed_address', 'image',
+                  'fcm_token']
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -86,7 +87,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['nickname', 'phone_number', ]  # TODO image 추가
+        fields = ['nickname', 'phone_number', 'fcm_token']  # TODO image 추가
 
 
 class UserAddressSerializer(serializers.ModelSerializer):
