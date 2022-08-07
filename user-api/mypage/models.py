@@ -44,6 +44,7 @@ class User(models.Model):
     check_privacy_policy = models.BooleanField()
     image = DynamicStorageImageField(upload_to=get_file_path, max_length=255, null=True)
     is_custom_image = models.BooleanField(default=False)
+    fcm_token = models.CharField(max_length=255, null=True)
 
     class Meta:
         managed = TEST
