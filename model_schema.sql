@@ -43,6 +43,7 @@ CREATE TABLE `User` (
     `point` point NOT NULL,
     `image` varchar(255),
     `is_custom_image` tinyint(1) default 0 not null,
+    `fcm_token` varchar(255),
     UNIQUE KEY `account_id` (`account_id`),
 --     FOREIGN KEY (`id`) REFERENCES `accounts_socialuser` (`id`),
     FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`) ON DELETE SET NULL
