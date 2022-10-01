@@ -151,10 +151,10 @@ KAKAO_REST_API_KEY = None
 PROVIDER_LIST = {'kakao', }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=3),
     'TOKEN_REFRESH_SERIALIZER': 'accounts.jwt_serializers.TokenRefreshSerializer',
-    'ROTATE_REFRESH_TOKENS': False,
+    'ROTATE_REFRESH_TOKENS': True,
 }
 
 
